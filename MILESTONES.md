@@ -4,17 +4,17 @@ The user can define variables to reuse melodies and create loops within the song
 own volume, pitch and tempo for the note. Eventually we also plan to allow users to add their own melodies in text
 format into the DSL.<br/>
 
-**Sample Syntax**:<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    SET refrain TO G, D, E, F<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    SET verse1 TO C, B, C<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    SET verse2 TO B, A, B<br/>
+**Sample Syntax UPDATED 9/25/2020**:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    SET layer1 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(PIANO) TEMPO(140)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    SET layer2 NOTES(C, B[w], C) INSTRUMENT(violin) TEMPO(160)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    SET layer3 NOTES(A, B, C) INSTRUMENT(piano) TEMPO(100)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    RHYTHM LAYER1(HHHHHHHH) LAYER2(B...B...) LAYER3(..S...S.)<br/>
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    PLAY<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    TEMPO 140<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    LOOP 2 TIMES<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    verse1<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    refrain<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    verse2<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    LOOP 3 TIMES<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    START layer1, layer2<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    END LOOP<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    START layer3<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    STOP<br/></p>
 
 **Feedback from TA**: Our TA commented that we need to make sure we are giving the user enough "programming space" to
@@ -24,24 +24,41 @@ format into the DSL.<br/>
  possibly define custom instruments. We will also allow the user to customize the sound globally by setting defining
  things like treble and bass. 
  
+ EDIT 9/25/2020: With more feedback from Amir we have come up with the following list of features:<br/>
+ 1. Users will be able to use loops within their songs.
+ 2. Users will be able to define as many sound layers as they want and can play up to three at any one time.
+ 3. Users can define the length of each note within a layer
+ 4. Users will be able to define the instrument used to play each layer.
+ 5. Users will be able to define the tempo of each layer.
+ 5. Users will be able to choose to define a global rhythm (beat) that will play as an additional layer throught the
+  entire song. 
+ 6. Users MAY be able to include fade in/out in their layers. We are not sure yet if we will include this feature
+ , because the implementation seems like it may be very difficult.
+ 
 **Planned Follow Up Tasks**: We will work on developing more feature ideas and making our current ideas concrete.
  
  ## Milestone 2 (Week3)
 **Planned division of main responsibilities between team members**
  
+ Overall Breakdown
 EBNF and UML Diagram: Everyone<br/>
 Implement Java Music Api: Muriel<br/>
 Tokenizer: Roy<br/>
-Parser: Nick and Shobhit<br/>
+Parser/Evaluator: Nick and Shobhit<br/>
 Validator: Francis<br/>
 
 **Roadmap for what should be done when**
 
-September 25th: EBNF and UML Diagram<br/>
-October 3rd: Implement our Music API using the Java Music API
-October 13th: Implement Tokenizer, Parser, and Validator
+**September 25th**: EBNF and UML Diagram<br/>
+**September 28th**: Concrete definition of the inputs and outputs of each Major Class. This includes specifying the
+ tokens and the AST.<br/>
+**October 2nd**: Implement our Music API using the Java Music API. Implement AST classes (including evaluate methods
+).<br/>
+**October 5th**: Finish Tokenizer, Parser, and Validator classes.<br/>
+**October 13th**: Implement the top level controller and fully test implementation.<br/>
+... The rest of the time will be spent on testing and debugging.
 
-**Summary of Progress so far**
+**Summary of Progress so far**:
 Our syntax has been designed, it just needs to be formalized in an EBNF. We have also begun looking into Java music
 API's that can be used to play music. Finally, we have divided up the core responsibilities among the group. We
 are ready and stoked to start coding!
