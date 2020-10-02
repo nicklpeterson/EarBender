@@ -16,7 +16,7 @@
     </properties>
 
     <repositories>
-        <!-- Repo for jFuege -->
+        <!-- Repo for jfugue -->
         <repository>
             <id>sing-group</id>
             <url>https://maven.sing-group.org/repository/maven/</url>
