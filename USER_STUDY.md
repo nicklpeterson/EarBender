@@ -58,17 +58,3 @@ STOP
 YOUR TASK:
 
 Make a song with 3 layers using any instruments. Play the two layers three times in a loop. After the loop has finished play the third layer.
-
-----------------------------
-
-SOLUTION:
-
-SET layer1 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(PIANO) TEMPO(140)
-SET layer2 NOTES(C, B[w], C) INSTRUMENT(violin) TEMPO(160)
-SET layer3 NOTES(A, B, C) INSTRUMENT(piano) TEMPO(100)
-PLAY
-LOOP 3 TIMES
-START layer1, layer2
-END LOOP
-START layer3
-STOP
