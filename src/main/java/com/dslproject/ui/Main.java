@@ -1,6 +1,8 @@
-package ui;
+package com.dslproject.ui;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
 import org.jfugue.theory.ChordProgression;
@@ -8,6 +10,8 @@ import org.jfugue.theory.ChordProgression;
 public class Main {
 
     public static void main(String[] args) {
+        Logger logger = LoggerFactory.getLogger(Main.class);
+        logger.info("Starting Main");
 
         Pattern pattern = new ChordProgression("I IV V")
                 .distribute("7%6")
@@ -16,7 +20,7 @@ public class Main {
                 .getPattern()
                 .setInstrument("Piano")
                 .setTempo(100);
-        new Player().play(pattern);
+        new Player().play(pattern.repeat(1));
 
     }
 
