@@ -1,0 +1,7 @@
+USER STUDY
+
+User: Akriti Bhatia
+Age: 30
+Gender: Female
+Not proficient in coding at all
+After going through the examples, it was easy to actually write the code required for the question. However, the fact that a layer can’t be overwritten wasn’t apparent. In fact the user even thought of multiple ways to write the solution to the problem, which showed that our examples were good enough and language easy enough to implement.
