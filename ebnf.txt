@@ -1,0 +1,36 @@
+http://www.jfugue.org/4/jfbmrkklprpp/TheCompleteGuideToJFugue-v1.pdf
+http://www.jfugue.org/examples.html
+
+PROGRAM ::= STATEMENT*
+STATEMENT ::= TEMPO | LOOP | VERSE | RHYTHM | INSTRUMENT|PLAY
+// fade-in & fade-out?
+
+VERSE ::= “SET ” VERSE_ID “TO ” NOTE+
+VERSE_ID ::= STRING
+NOTE ::= SINGLE_NOTE (NOTE_STATE)? OCTAVE (DURATION)?
+SINGLE_NOTE ::= [A-G] | R
+OCTAVE::= [1-9] | 10
+DURATION ::= “w” | “h” | “q” | “i” | “s” | “t” | “x” | “o”
+// duration table pg26; We can also use other syntax, but I personally think this one is decent.
+NOTE_STATE ::= “#” | “##” | “b” | “bb” | “n”
+// sharp | double-sharps | flat | double-flats | natural note
+
+TEMPO ::= “SET TEMP TO ” TEMPO_CONSTANT
+// There is a list of tempo constants in the guide book, but not quite sure whether we can randomly assign a constant for the tempo.
+TEMPO_CONSTANT ::= CONSTANT_VALUE
+CONSTANT_VALUE=[40-220]
+
+PLAY::=”PLAY ” VERSE_ID
+
+LOOP ::= “LOOP ” VERSE_ID “ ” LOOP_TIMES “ TIME”
+LOOP_TIMES::=[0-9]+
+//for loop_times, is it better to use integer?
+RHYTHM ::= ???
+// Cause we can identify instrument&notation to use in the beat, so not quite sure how to implement this part
+
+INSTRUMENT ::= “USE ” INSTRUMENT_TYPE “ FOR ” VERSE_ID
+INSTRUMENT_TYPE ::= ”piano”|”bass”|”guitar”|”trumpet”|”violin”|”flute”|”whistle”
+
+// there are 120+ different instruments in JFugue, probably we should narrow it down.
+
+//I chose some common instruments, feel free to add more, I think the total number of instruments we provide should probably be under 20 for convenience sake.
