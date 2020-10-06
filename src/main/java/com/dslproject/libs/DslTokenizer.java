@@ -39,16 +39,21 @@ public class DslTokenizer implements Tokenizer {
         return new DslTokenizer(filename);
     }
 
+    /*
+    Tokenize the program
+     */
     private void tokenize() throws TokenizerException {
         log.info("INPUT PROGRAM:\n{}\n", this.inputProgram);
         List<String> tokenList = splitBySeparators(this.inputProgram);
-        List<String> test = new ArrayList<>();
         log.debug("Split by Separator:\n{}\n", tokenList);
         tokenList = splitByLeadingToken(tokenList);
         log.debug("Split by Leading Token: \n{}\n", tokenList);
         this.tokens = tokenList.toArray(new String[0]);
     }
 
+    /*
+    Split program into tokens by separators as defined in the field separatorsList
+     */
     private List<String> splitBySeparators(String inputProgram) {
         Pattern separatorPattern = Pattern.compile(this.separatorPattern);
         Matcher separatorMatcher = separatorPattern.matcher(inputProgram);
@@ -62,7 +67,10 @@ public class DslTokenizer implements Tokenizer {
         tokenList.add(inputProgram.substring(previousEnd));
         return tokenList;
     }
-
+    /*
+    Recursive function that splits remaining tokens by the leading token using the algorithm from
+    exercise 1
+     */
     private List<String> splitByLeadingToken(List<String> substringList) throws TokenizerException {
         if (substringList.size() == 0) {
             return substringList;
@@ -87,6 +95,9 @@ public class DslTokenizer implements Tokenizer {
         return tokenList;
     }
 
+    /*
+    Returns true if the string is a separator or matches one of the regex patterns in DslConstants
+     */
     private boolean isToken(String token) {
         Boolean matchesRegexString = token.matches(this.separatorPattern);
         if (!matchesRegexString) {
@@ -100,6 +111,10 @@ public class DslTokenizer implements Tokenizer {
         return matchesRegexString;
     }
 
+    /*
+    Return the matcher that matches the leading token
+    Throws TokenizerException if an exception is not found
+     */
     private Matcher getMatchForLeadingToken(String sub) throws TokenizerException {
         final List<Matcher> matchers = new ArrayList<>();
         Matcher matchedStart = null;
@@ -117,6 +132,9 @@ public class DslTokenizer implements Tokenizer {
         return matchedStart;
     }
 
+    /*
+    returns a regex pattern that will match any of the strings in listToConvert
+     */
     private String listToRegexPattern(List<String> listToConvert) {
         String separatorRegex = listToConvert.toString();
         separatorRegex = separatorRegex.replace(" ", "");
