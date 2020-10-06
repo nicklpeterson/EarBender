@@ -1,6 +1,9 @@
 package com.dslproject.ui;
 
 
+import com.dslproject.exceptions.TokenizerException;
+import com.dslproject.libs.DslTokenizer;
+import com.dslproject.libs.Tokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jfugue.pattern.Pattern;
@@ -10,9 +13,20 @@ import org.jfugue.theory.ChordProgression;
 public class Main {
 
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Main.class);
-        logger.info("Starting Main");
+        Logger log = LoggerFactory.getLogger(Main.class);
+        log.info("Starting Main");
+        log.debug("Debug log message");
+        log.info("Info log message");
+        log.error("Error log message");
+        try {
+            Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
+        } catch (TokenizerException e) {
+            log.error(e.getMessage());
+            log.error("Exiting Program");
+        }
+    }
 
+    private void testMusicPlayer() {
         Pattern pattern = new ChordProgression("I IV V")
                 .distribute("7%6")
                 .allChordsAs("$0 $0 $0 $0 $1 $1 $0 $0 $2 $1 $0 $0")
@@ -21,7 +35,6 @@ public class Main {
                 .setInstrument("Piano")
                 .setTempo(100);
         new Player().play(pattern.repeat(1));
-
     }
 
 }
