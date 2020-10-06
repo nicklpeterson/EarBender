@@ -11,7 +11,7 @@ public class DslConstants {
     final static public String RHYTHM_REGEX = "RHYTHM LAYER1\\((H|B|S|C|.){8}\\) LAYER2\\((H|B|S|C|.){8}\\) LAYER3\\((H|B|S|C|.){8}\\)";
     final static public String PLAY_REGEX = "PLAY";
     final static public String LOOP_REGEX = "LOOP";
-    final static public String START_REGEX = "START [A-Za-z0-9]+(,[A-Za-z0-9]+)*";
+    final static public String START_REGEX = "START [A-Za-z0-9]+(,( *)[A-Za-z0-9]+)*";
     final static public String END_REGEX = "END";
     final static public String NUMBER_REGEX = "[0-9]+";
     final static public String STOP_REGEX = "STOP";
