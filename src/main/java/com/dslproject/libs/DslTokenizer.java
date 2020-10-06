@@ -124,23 +124,47 @@ public class DslTokenizer implements Tokenizer {
         return separatorRegex.replaceAll("\\[|\\]", "");
     }
 
+    private String checkNext(){
+        String token="";
+        if (currentToken<tokens.length){
+            token = tokens[currentToken];
+        }
+        else
+            token="NO_MORE_TOKENS";
+        return token;
+    }
+
     @Override
     public String getNext() {
-        return null;
+        String token="";
+        if (currentToken<tokens.length){
+            token = tokens[currentToken];
+            currentToken++;
+        }
+        else
+            token="NULLTOKEN";
+        return token;
     }
 
     @Override
     public boolean checkToken(String regexp) {
-        return false;
+        String s = checkNext();
+        log.debug("comparing: |"+s+"|  to  |"+regexp+"|");
+        return (s.matches(regexp));
     }
 
     @Override
     public String getAndCheckNext(String regexp) {
-        return null;
+        String s = getNext();
+        if (!s.matches(regexp)) {
+            throw new RuntimeException("Unexpected next token for Parsing! Expected something matching: " + regexp + " but got: " + s);
+        }
+        log.debug("matched: "+s+"  to  "+regexp);
+        return s;
     }
 
     @Override
     public boolean moreTokens() {
-        return false;
+        return currentToken<tokens.length;
     }
 }
