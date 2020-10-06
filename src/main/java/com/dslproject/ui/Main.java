@@ -14,10 +14,6 @@ public class Main {
 
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger(Main.class);
-        log.info("Starting Main");
-        log.debug("Debug log message");
-        log.info("Info log message");
-        log.error("Error log message");
         try {
             Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
         } catch (TokenizerException e) {

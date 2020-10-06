@@ -40,12 +40,12 @@ public class DslTokenizer implements Tokenizer {
     }
 
     private void tokenize() throws TokenizerException {
-        log.info("\n\n" + this.inputProgram);
+        log.info("INPUT PROGRAM:\n{}\n", this.inputProgram);
         List<String> tokenList = splitBySeparators(this.inputProgram);
         List<String> test = new ArrayList<>();
-        log.debug("Split by Separator: \n {}", tokenList);
+        log.debug("Split by Separator:\n{}\n", tokenList);
         tokenList = splitByLeadingToken(tokenList);
-        log.debug("Split by Leading Token: \n {}", tokenList);
+        log.debug("Split by Leading Token: \n{}\n", tokenList);
         this.tokens = tokenList.toArray(new String[0]);
     }
 
