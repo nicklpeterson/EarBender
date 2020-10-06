@@ -2,6 +2,7 @@ SET layer1 NOTES(G[qq],D[q],E[h],F[qqq]) INSTRUMENT(piano) TEMPO(140)
 SET layer2 NOTES(C,B[w],C) INSTRUMENT(violin) TEMPO(160)
 SET layer3 NOTES(A,B,C) INSTRUMENT(piano) TEMPO(100)
 RHYTHM LAYER1(HHHHHHHH) LAYER2(B...B...) LAYER3(..S...S.)
+
 PLAY
 LOOP 3
 START layer1, layer2

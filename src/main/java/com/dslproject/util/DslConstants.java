@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DslConstants {
+    final static public List<String> SEPARATOR_LIST = Arrays.asList("\n", "\r\n");
     final static public String SET_REGEX = "SET [A-Za-z0-9]+";
     final static public String NOTES_REGEX = "NOTES\\(([A-G](\\[(q|h|w)*\\])?)(,( *)([A-G](\\[(q|h|w)*\\])?))*\\)";
     final static public String INSTRUMENT_REGEX = "INSTRUMENT\\(((piano)|(violin)|(trumpet)|(guitar)|(bass))\\)"; // TODO: Add more instruments

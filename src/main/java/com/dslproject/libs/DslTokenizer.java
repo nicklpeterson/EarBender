@@ -16,27 +16,59 @@ import java.util.regex.Pattern;
 public class DslTokenizer implements Tokenizer {
 
     final private Logger log = LoggerFactory.getLogger(Main.class);
-    final private List<String> separatorsList = Arrays.asList("\n", "\r\n");
     final private List<String> regexList = DslConstants.REGEX_LIST;
     final private String separatorPattern;
-    private String inputProgram;
+    private final String inputProgram;
     private String[] tokens;
     private int currentToken = 0;
 
+    public static Tokenizer createDslTokenizer(String filename) throws TokenizerException {
+        return new DslTokenizer(filename);
+    }
+
+    @Override
+    public String getNext() {
+        String token="";
+        if (currentToken<tokens.length){
+            token = tokens[currentToken];
+            currentToken++;
+        }
+        else
+            token="NULLTOKEN";
+        return token;
+    }
+
+    @Override
+    public boolean checkToken(String regexp) {
+        String s = checkNext();
+        log.debug("comparing: |"+s+"|  to  |"+regexp+"|");
+        return (s.matches(regexp));
+    }
+
+    @Override
+    public String getAndCheckNext(String regexp) {
+        String s = getNext();
+        if (!s.matches(regexp)) {
+            throw new RuntimeException("Unexpected next token for Parsing! Expected something matching: " + regexp + " but got: " + s);
+        }
+        log.debug("matched: "+s+"  to  "+regexp);
+        return s;
+    }
+
+    @Override
+    public boolean moreTokens() {
+        return currentToken<tokens.length;
+    }
 
     private DslTokenizer(String filename) throws TokenizerException {
         try {
-            this.separatorPattern = listToRegexPattern(this.separatorsList);
+            this.separatorPattern = listToRegexPattern(DslConstants.SEPARATOR_LIST);
             this.inputProgram = Files.readString(Paths.get(filename));
         } catch (IOException e) {
-            log.info("Failed to load file");
+            log.error("Failed to load file");
             throw new TokenizerException(e.getMessage());
         }
         tokenize();
-    }
-
-    public static Tokenizer createDslTokenizer(String filename) throws TokenizerException {
-        return new DslTokenizer(filename);
     }
 
     /*
@@ -67,6 +99,7 @@ public class DslTokenizer implements Tokenizer {
         tokenList.add(inputProgram.substring(previousEnd));
         return tokenList;
     }
+
     /*
     Recursive function that splits remaining tokens by the leading token using the algorithm from
     exercise 1
@@ -150,39 +183,5 @@ public class DslTokenizer implements Tokenizer {
         else
             token="NO_MORE_TOKENS";
         return token;
-    }
-
-    @Override
-    public String getNext() {
-        String token="";
-        if (currentToken<tokens.length){
-            token = tokens[currentToken];
-            currentToken++;
-        }
-        else
-            token="NULLTOKEN";
-        return token;
-    }
-
-    @Override
-    public boolean checkToken(String regexp) {
-        String s = checkNext();
-        log.debug("comparing: |"+s+"|  to  |"+regexp+"|");
-        return (s.matches(regexp));
-    }
-
-    @Override
-    public String getAndCheckNext(String regexp) {
-        String s = getNext();
-        if (!s.matches(regexp)) {
-            throw new RuntimeException("Unexpected next token for Parsing! Expected something matching: " + regexp + " but got: " + s);
-        }
-        log.debug("matched: "+s+"  to  "+regexp);
-        return s;
-    }
-
-    @Override
-    public boolean moreTokens() {
-        return currentToken<tokens.length;
     }
 }
