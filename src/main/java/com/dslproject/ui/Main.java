@@ -1,9 +1,13 @@
 package com.dslproject.ui;
 
 
+
 import com.dslproject.music.Music;
 import com.dslproject.music.MusicLayer;
 import com.dslproject.music.MusicVar;
+import com.dslproject.exceptions.TokenizerException;
+import com.dslproject.libs.DslTokenizer;
+import com.dslproject.libs.Tokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,10 +15,15 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Main.class);
-        logger.info("Starting Main");
-
-        playMusic();
+        Logger log = LoggerFactory.getLogger(Main.class);
+        try {
+            Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
+          
+//             playMusic();
+        } catch (TokenizerException e) {
+            log.error(e.getMessage());
+            log.error("Exiting Program");
+        }
     }
 
     public static void playMusic(){
@@ -32,23 +41,12 @@ public class Main {
         music.addMusicLayer(layer1);
         music.addMusicLayer(layer2);
 
-//        music.addPattern(layer1);
-//        music.addPattern(layer2);
-
-//        music.addPattern(var3, 0);
-//        music.addPattern(var4, 1);
-
         music.addRhythmLayer("..X...X...X...XO");
         music.addRhythmLayer("..S...S...S...S.");
         music.addRhythmLayer("````````````````");
         music.addRhythmLayer("...............+");
 
         music.setRhythmLength(3);
-
-        //Song of Storms - The Legend of Zelda - Ocarina of Time
-//        String notes = "D F D D F D E F E F E C A A D F G A A D F G E D F D D F D E F E F E C A " +
-//                "A D F G A A D";
-//        music.addPattern(notes, 120, "Ocarina", 0, 2);
 
         music.playMusic();
     }
