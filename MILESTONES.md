@@ -63,3 +63,6 @@ Our syntax has been designed, it just needs to be formalized in an EBNF. We have
 API's that can be used to play music. Finally, we have divided up the core responsibilities among the group. We
 are ready and stoked to start coding!
 
+## MILESTONE 3
+- user studies: ./user_studies
+- EBNF: ./ebnf.txt
