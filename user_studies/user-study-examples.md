@@ -1,6 +1,6 @@
 **Example 1**: Play a trumpet layer with a single quarter note at Tempo 100
 **Description**: The basis of this language is layers. You can define up to three layers plus an additional rhythm layer. <br/>
-A layer can contain any number of notes and must contain an instrument and a tempo.
+A layer can contain any number of musicVar and must contain an instrument and a tempo.
 
 SET layer1 NOTES(G[q]) INSTRUMENT(trumpet) TEMPO(100)
 
