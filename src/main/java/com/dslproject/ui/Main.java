@@ -2,12 +2,10 @@ package com.dslproject.ui;
 
 
 import com.dslproject.music.Music;
-import org.jfugue.rhythm.Rhythm;
+import com.dslproject.music.MusicLayer;
+import com.dslproject.music.MusicVar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.jfugue.pattern.Pattern;
-import org.jfugue.player.Player;
-import org.jfugue.theory.ChordProgression;
 
 public class Main {
 
@@ -16,13 +14,29 @@ public class Main {
         Logger logger = LoggerFactory.getLogger(Main.class);
         logger.info("Starting Main");
 
+        playMusic();
+    }
+
+    public static void playMusic(){
         Music music = new Music();
 
-        music.addPattern("C D E F", 80, "Piano", 0, 3);
-        music.addPattern("C D E F", 80, "Violin", 1, 3);
+        MusicVar var1 = new MusicVar("C D E F", 80, "Piano", 2);
+        MusicVar var2 = new MusicVar("C D E F", 80, "Violin", 2);
 
-        music.addPattern("R A B C", 220, "Piano", 0, 3);
-        music.addPattern("R A B C", 220, "Violin", 1, 3);
+        MusicVar var3 = new MusicVar("R A B C", 220, "Piano", 2);
+        MusicVar var4 = new MusicVar("R A B C", 220, "Violin", 2);
+
+        MusicLayer layer1 = new MusicLayer(new MusicVar[]{var1, var4, var1}, 0);
+        MusicLayer layer2 = new MusicLayer(new MusicVar[]{var2, var3, var2}, 1);
+
+        music.addMusicLayer(layer1);
+        music.addMusicLayer(layer2);
+
+//        music.addPattern(layer1);
+//        music.addPattern(layer2);
+
+//        music.addPattern(var3, 0);
+//        music.addPattern(var4, 1);
 
         music.addRhythmLayer("..X...X...X...XO");
         music.addRhythmLayer("..S...S...S...S.");
@@ -38,5 +52,4 @@ public class Main {
 
         music.playMusic();
     }
-
 }

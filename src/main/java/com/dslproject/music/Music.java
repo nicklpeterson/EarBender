@@ -28,13 +28,10 @@ public class Music {
     /**
      * Add a patten to be played later
      *
-     * @param notes         note to be played
-     * @param tempo         the higher of the temp the faster it play
-     * @param instrument    instrument name
-     * @param channel       define different channel to play notes simultaneously (0-15)
-     * @param loopTimes     times to loop the notes
+     * @param musicVar     MusicVar object
+     * @param channel      channel to play the MusicVar
      */
-    public void addPattern(String notes, int tempo, String instrument, int channel, int loopTimes){
+    public void addPattern(MusicVar musicVar, int channel){
 
         // I think there is a bug in jfugue on setting the tempo
         // for multiple patterns on multiple channel.
@@ -64,18 +61,48 @@ public class Music {
         String patternStr = "";
 
         patternStr += "V" + channel;
-        patternStr += " " + "T" + tempo;
-        patternStr += " " + "I[" + instrument + "]";
+        patternStr += " " + "T" + musicVar.getTempo();
+        patternStr += " " + "I[" + musicVar.getInstrument() + "]";
 
         StringBuilder resultNotes = new StringBuilder();
-        for(int i=0; i<loopTimes; i++){
-            resultNotes.append(" ").append(notes);
+        for(int i=0; i<musicVar.getLoopTimes(); i++){
+            resultNotes.append(" ").append(musicVar.getNoteStr());
         }
 
         patternStr += " " + resultNotes.toString();
 
         Pattern pattern = new Pattern(patternStr);
         patternList.add(pattern);
+
+    }
+
+    /**
+     * Add a music layer to be played later
+     *
+     * @param musicLayer     a musicLayer object
+     */
+    public void addMusicLayer(MusicLayer musicLayer){
+
+        MusicVar[] musicVars = musicLayer.getMusicVars();
+        int channel = musicLayer.getChannel();
+
+        for (MusicVar musicVar : musicVars) {
+            String patternStr = "";
+
+            patternStr += "V" + channel;
+            patternStr += " " + "T" + musicVar.getTempo();
+            patternStr += " " + "I[" + musicVar.getInstrument() + "]";
+
+            StringBuilder resultNotes = new StringBuilder();
+            for (int j = 0; j < musicVar.getLoopTimes(); j++) {
+                resultNotes.append(" ").append(musicVar.getNoteStr());
+            }
+
+            patternStr += " " + resultNotes.toString();
+
+            Pattern pattern = new Pattern(patternStr);
+            patternList.add(pattern);
+        }
 
     }
 
@@ -100,11 +127,11 @@ public class Music {
      */
     public void playMusic(){
 
-        logger.info("Size of list:  " + patternList.size());
+//        logger.info("Size of list:  " + patternList.size());
+//        logger.info("list content:  " + patternList.toString());
 
         patternList.add(rhythm.getPattern());
         player.play(patternList.toArray(new Pattern[0]));
-
     }
 
 
