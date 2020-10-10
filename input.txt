@@ -10,6 +10,8 @@ SET LIST layer2(var5)
 SET LIST layer3(var1, var2, var1)
 SET LIST layer4(var1, var2, var3)
 
+RHYTHM LAYER1(HHHHHHHH) LAYER2(B...B...) LAYER3(..S...S.)
+
 FUNCTION fun {
     LOOP 3 TIMES
         PLAY layer1, layer2

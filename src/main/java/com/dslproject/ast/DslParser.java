@@ -1,10 +1,7 @@
 package com.dslproject.ast;
 
 import com.dslproject.ast.declarations.*;
-import com.dslproject.ast.executions.Execution;
-import com.dslproject.ast.executions.Loop;
-import com.dslproject.ast.executions.Play;
-import com.dslproject.ast.executions.PlaySimul;
+import com.dslproject.ast.executions.*;
 import com.dslproject.exceptions.ParserException;
 import com.dslproject.libs.Tokenizer;
 import com.dslproject.util.DslConstants;
@@ -19,11 +16,13 @@ public class DslParser {
     private final Tokenizer tokenizer;
     private final Map<String, Declaration> declarationMap;
     private final List<Statement> statements;
+    private Execution rhythm;
 
     public DslParser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
         this.declarationMap = new HashMap<>();
         this.statements = new ArrayList<>();
+        this.rhythm = null;
     }
 
     public static DslParser getParser(Tokenizer tokenizer) {
@@ -58,6 +57,9 @@ public class DslParser {
         }
         else if (tokenizer.checkToken(DslConstants.FUNCTION_REGEX)) {
             safeAddDeclaration(parseFunction());
+        }
+        else if (tokenizer.checkToken(DslConstants.RHYTHM_REGEX)) {
+            this.statements.add(0, parseRhythm());
         }
         else if (tokenizer.checkToken(DslConstants.START_REGEX) || tokenizer.checkToken(DslConstants.STOP_REGEX)) {
             tokenizer.getNext();
@@ -151,6 +153,15 @@ public class DslParser {
         }
         tokenizer.getNext();
         return new Function(name, executions);
+    }
+
+    private Rhythm parseRhythm() {
+        String[] tokens = tokenizer.getNext().split("( )|\\(|\\)");
+        return Rhythm.builder()
+                .layer1(tokens[2])
+                .layer2(tokens[5])
+                .layer3(tokens[8])
+                .build();
     }
 
     private List<Note> newNoteList(String[] notes) {
