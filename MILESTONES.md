@@ -86,12 +86,12 @@ SET LIST layer4(var1, var2, var3)<br/>
 <br/>
 FUNCTION fun1 {<br/>
 &nbsp;&nbsp;&nbsp;    LOOP 3 TIMES<br/>
-&nbsp;&nbsp;&nbsp;    START layer1, layer2<br/>
+&nbsp;&nbsp;&nbsp;    PLAY layer1, layer2<br/>
 &nbsp;&nbsp;&nbsp;    END LOOP<br/>
 }<br/>
 <br/>
 START<br/>
-DO fun1<br/>
+PLAY fun1<br/>
 PLAY layer3, layer4, layer2, layer2<br/>
 PLAY SIMUL layer1, layer2, layer3, layer4<br/>
 STOP<br/>

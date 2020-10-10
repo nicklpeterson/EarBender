@@ -1,37 +1,162 @@
 package com.dslproject.ast;
 
+import com.dslproject.ast.Declarations.*;
+import com.dslproject.ast.executions.Execution;
+import com.dslproject.ast.executions.Loop;
+import com.dslproject.ast.executions.Play;
+import com.dslproject.exceptions.ParserException;
 import com.dslproject.libs.Tokenizer;
+import com.dslproject.util.DslConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DslParser {
 
+    final private Logger log = LoggerFactory.getLogger(DslParser.class);
     private final Tokenizer tokenizer;
+    private final Map<String, Declaration> declarationMap;
+    private final List<Statement> statements;
 
     public DslParser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
+        this.declarationMap = new HashMap<>();
+        this.statements = new ArrayList<>();
     }
 
     public static DslParser getParser(Tokenizer tokenizer) {
         return new DslParser(tokenizer);
     }
 
-    public Program parseProgram() {
-        List<Statement> statements = new ArrayList<>();
+    public Program parseProgram() throws ParserException {
         while (tokenizer.moreTokens()) {
-            statements.add(parseStatement());
+            parseStatement();
         }
-        return null;
+        return new Program(this.statements);
     }
 
-    private Statement parseStatement() {
-        //Stub
-        // TODO: Implement
-        return null;
-
+    private void parseStatement() throws ParserException {
+        if (tokenizer.checkToken("\n")) {
+            tokenizer.getNext();
+        }
+        else if (tokenizer.checkToken(DslConstants.VAR_REGEX)) {
+            safeAddDeclaration(parseVariable());
+        }
+        else if (tokenizer.checkToken(DslConstants.LIST_REGEX)) {
+            safeAddDeclaration(parseList());
+        }
+        else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
+            this.statements.add(parsePlay());
+        }
+        else if (tokenizer.checkToken(DslConstants.LOOP_REGEX)) {
+            this.statements.add(parseLoop());
+        }
+        else if (tokenizer.checkToken(DslConstants.FUNCTION_REGEX)) {
+            safeAddDeclaration(parseFunction());
+        }
+        else if (tokenizer.checkToken(DslConstants.START_REGEX) || tokenizer.checkToken(DslConstants.STOP_REGEX)) {
+            tokenizer.getNext();
+        }
+        else {
+            throw new ParserException("Failed to parse. Invalid token.");
+        }
     }
 
+    private Variable parseVariable() throws ParserException {
+        final String name = tokenizer.getNext().split(" ")[2];
+        final String[] noteArray = tokenizer.getAndCheckNext(DslConstants.NOTES_REGEX).split("\\(")[1].replace(")", "").split(",");
+        final List<Note> notes = newNoteList(noteArray);
+        final String instrument = tokenizer.getAndCheckNext(DslConstants.INSTRUMENT_REGEX).split("\\(|\\)")[1];
+        final Integer tempo = Integer.parseInt(tokenizer.getAndCheckNext(DslConstants.TEMPO_REGEX).split("\\(|\\)")[1]);
+        return new Variable(name, notes, instrument, tempo);
+    }
 
+    private DslList parseList() throws ParserException {
+        String[] tokens = tokenizer.getNext().split(" |\\(|\\)");
+        final String name = tokens[2];
+        tokens = Arrays.copyOfRange(tokens, 3, tokens.length);
+        final List<Declaration> declarations = new ArrayList<>();
+        for (String token : tokens) {
+            declarations.add(safeGetDeclaration(token.replaceAll(",", "")));
+        }
+        return new DslList(name, declarations);
+    }
 
+    private Play parsePlay() throws ParserException {
+        final String[] tokens = tokenizer.getNext().replace("PLAY ", "").split("( )|(, )");
+        final List<Declaration> declarations = new ArrayList<>();
+        for (String token : tokens) {
+            declarations.add(safeGetDeclaration(token));
+        }
+        return new Play(declarations);
+    }
+
+    private Loop parseLoop() throws ParserException {
+        final int times = Integer.parseInt(tokenizer.getNext().split(" ")[1]);
+        final List<Execution> executions = new ArrayList<>();
+        while(!tokenizer.checkToken(DslConstants.END_REGEX)) {
+            if (tokenizer.checkToken("\n")) {
+                tokenizer.getNext();
+            }
+            else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
+                executions.add(parsePlay());
+            }
+            else if (tokenizer.checkToken(DslConstants.LOOP_REGEX)) {
+                executions.add(parseLoop());
+            }
+            else {
+                throw new ParserException("Failed to parse program.\nInvalid statement in loop.");
+            }
+        }
+        tokenizer.getNext();
+        return new Loop(executions, times);
+    }
+
+    private Function parseFunction() throws ParserException {
+        String name = tokenizer.getNext().split(" ")[1];
+        tokenizer.getAndCheckNext("\\{");
+        final List<Execution> executions = new ArrayList<>();
+        while (!tokenizer.checkToken("\\}")) {
+            if (tokenizer.checkToken("\n")) {
+                tokenizer.getNext();
+            }
+            else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
+                executions.add(parsePlay());
+            }
+            else if (tokenizer.checkToken(DslConstants.LOOP_REGEX)) {
+                executions.add(parseLoop());
+            }
+            else {
+                throw new ParserException("Failed to parse program.\nInvalid statement in function " + name + ".");
+            }
+        }
+        tokenizer.getNext();
+        return new Function(name, executions);
+    }
+
+    private List<Note> newNoteList(String[] notes) {
+        final List<Note> noteList = new ArrayList<>();
+        for (String note : notes) {
+            noteList.add(new Note(note));
+        }
+        return noteList;
+    }
+
+    private void safeAddDeclaration(Declaration declaration) throws ParserException {
+        final String name = declaration.getName();
+        if (this.declarationMap.containsKey(name)) {
+            throw new ParserException("Failed to parse program.\n" + name + " was declared multiple times.");
+        } else {
+            this.declarationMap.put(name, declaration);
+        }
+    }
+
+    private Declaration safeGetDeclaration(String name) throws ParserException {
+        if (declarationMap.containsKey(name)) {
+            return this.declarationMap.get(name);
+        } else {
+            throw new ParserException("FAILED to parse program.\n Attempted to add an undeclared variable to list " + name);
+        }
+    }
 }

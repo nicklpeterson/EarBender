@@ -1,23 +1,21 @@
 package com.dslproject.ast.Declarations;
 
 import com.dslproject.ast.DslVisitor;
-import com.dslproject.ast.Execution.Execution;
-import com.dslproject.util.ListMethods;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.dslproject.ast.executions.Execution;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Delegate;
 
 import java.util.List;
 
-@Builder
 @Getter
 @Setter
-@AllArgsConstructor
 public class Function extends Declaration {
-    @Delegate(types = ListMethods.class)
     private List<Execution> executions;
+
+    public Function(String name, List<Execution> executions) {
+        super(name);
+        this.executions = executions;
+    }
 
     @Override
     public <T> T accept(DslVisitor<T> v) {

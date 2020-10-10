@@ -1,4 +1,4 @@
-package com.dslproject.ast.Execution;
+package com.dslproject.ast.executions;
 
 import com.dslproject.ast.Statement;
 

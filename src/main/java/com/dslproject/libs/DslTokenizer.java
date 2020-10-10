@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class DslTokenizer implements Tokenizer {
 
-    final private Logger log = LoggerFactory.getLogger(Main.class);
+    final private Logger log = LoggerFactory.getLogger(DslTokenizer.class);
     final private List<String> regexList = DslConstants.REGEX_LIST;
     final private String separatorPattern;
     private final String inputProgram;
