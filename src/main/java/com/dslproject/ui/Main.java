@@ -22,7 +22,8 @@ public class Main {
             Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
             DslParser parser = DslParser.getParser(tokenizer);
             Program ast = parser.parseProgram();
-          
+            log.info("Successfully Parsed Tokens");
+
 //             playMusic();
         } catch (Exception e) {
             log.error(e.getMessage());

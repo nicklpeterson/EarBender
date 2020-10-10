@@ -4,6 +4,7 @@ import com.dslproject.ast.declarations.*;
 import com.dslproject.ast.executions.Execution;
 import com.dslproject.ast.executions.Loop;
 import com.dslproject.ast.executions.Play;
+import com.dslproject.ast.executions.PlaySimul;
 import com.dslproject.exceptions.ParserException;
 import com.dslproject.libs.Tokenizer;
 import com.dslproject.util.DslConstants;
@@ -47,7 +48,10 @@ public class DslParser {
             safeAddDeclaration(parseList());
         }
         else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
-            this.statements.add(parsePlay());
+            this.statements.add(parsePlaySync());
+        }
+        else if (tokenizer.checkToken(DslConstants.SIMUL_REGEX)) {
+            this.statements.add(parsePlaySimul());
         }
         else if (tokenizer.checkToken(DslConstants.LOOP_REGEX)) {
             this.statements.add(parseLoop());
@@ -83,13 +87,21 @@ public class DslParser {
         return new DslList(name, declarations);
     }
 
-    private Play parsePlay() throws ParserException {
-        final String[] tokens = tokenizer.getNext().replace("PLAY ", "").split("( )|(, )");
+    private PlaySimul parsePlaySimul() throws ParserException {
+        return new PlaySimul(parsePlay(tokenizer.getNext().replace("PLAY SIMUL ", "")));
+    }
+
+    private Play parsePlaySync() throws ParserException {
+        return new Play(parsePlay(tokenizer.getNext().replace("PLAY ", "")));
+    }
+
+    private List<Declaration> parsePlay(String statement) throws ParserException {
+        final String[] tokens = statement.split("( )|(, )");
         final List<Declaration> declarations = new ArrayList<>();
         for (String token : tokens) {
             declarations.add(safeGetDeclaration(token));
         }
-        return new Play(declarations);
+        return declarations;
     }
 
     private Loop parseLoop() throws ParserException {
@@ -100,10 +112,13 @@ public class DslParser {
                 tokenizer.getNext();
             }
             else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
-                executions.add(parsePlay());
+                executions.add(parsePlaySync());
             }
             else if (tokenizer.checkToken(DslConstants.LOOP_REGEX)) {
                 executions.add(parseLoop());
+            }
+            else if (tokenizer.checkToken(DslConstants.SIMUL_REGEX)) {
+                executions.add(parsePlaySimul());
             }
             else {
                 throw new ParserException("Failed to parse program.\nInvalid statement in loop.");
@@ -122,10 +137,13 @@ public class DslParser {
                 tokenizer.getNext();
             }
             else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
-                executions.add(parsePlay());
+                executions.add(parsePlaySync());
             }
             else if (tokenizer.checkToken(DslConstants.LOOP_REGEX)) {
                 executions.add(parseLoop());
+            }
+            else if (tokenizer.checkToken(DslConstants.SIMUL_REGEX)) {
+                executions.add(parsePlaySimul());
             }
             else {
                 throw new ParserException("Failed to parse program.\nInvalid statement in function " + name + ".");
