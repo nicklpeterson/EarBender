@@ -25,6 +25,17 @@ public class DslTokenizer implements Tokenizer {
         return new DslTokenizer(filename);
     }
 
+    private DslTokenizer(String filename) throws TokenizerException {
+        try {
+            this.separatorPattern = listToRegexPattern(DslConstants.SEPARATOR_LIST);
+            this.inputProgram = Files.readString(Paths.get(filename));
+        } catch (IOException e) {
+            log.error("Failed to load file");
+            throw new TokenizerException(e.getMessage());
+        }
+        tokenize();
+    }
+
     @Override
     public String getNext() {
         String token="";
@@ -57,17 +68,6 @@ public class DslTokenizer implements Tokenizer {
     @Override
     public boolean moreTokens() {
         return currentToken<tokens.length;
-    }
-
-    private DslTokenizer(String filename) throws TokenizerException {
-        try {
-            this.separatorPattern = listToRegexPattern(DslConstants.SEPARATOR_LIST);
-            this.inputProgram = Files.readString(Paths.get(filename));
-        } catch (IOException e) {
-            log.error("Failed to load file");
-            throw new TokenizerException(e.getMessage());
-        }
-        tokenize();
     }
 
     /*

@@ -19,8 +19,7 @@ public class Main {
         Logger log = LoggerFactory.getLogger(Main.class);
         try {
             Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
-            DslParser parser = DslParser.getParser(tokenizer);
-            Program ast = parser.parseProgram();
+            Program ast = DslParser.getParser(tokenizer).parseProgram();
             log.info("Successfully Parsed Tokens");
 
 //             playMusic();

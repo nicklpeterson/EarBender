@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DslConstants {
-    final static public List<String> SEPARATOR_LIST = Arrays.asList("\n", "\r\n");
+    final static public List<String> SEPARATOR_LIST = Arrays.asList("\\n", "\\r\\n");
     final static public String VAR_REGEX = "SET VAR [A-Za-z0-9]+";
     final static public String LIST_REGEX = "SET LIST [A-Za-z0-9]+\\([A-Za-z0-9]+(,( *)[A-Za-z0-9]+)*\\)";
     final static public String NOTES_REGEX = "NOTES\\(([A-G](\\[(q|h|w)*\\])?)(,( *)([A-G](\\[(q|h|w)*\\])?))*\\)";

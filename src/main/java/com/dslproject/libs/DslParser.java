@@ -6,23 +6,19 @@ import com.dslproject.ast.declarations.*;
 import com.dslproject.ast.executions.*;
 import com.dslproject.exceptions.ParserException;
 import com.dslproject.util.DslConstants;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+@RequiredArgsConstructor
 public class DslParser {
 
     final private Logger log = LoggerFactory.getLogger(DslParser.class);
     private final Tokenizer tokenizer;
-    private final Map<String, Declaration> declarationMap;
-    private final List<Statement> statements;
-
-    public DslParser(Tokenizer tokenizer) {
-        this.tokenizer = tokenizer;
-        this.declarationMap = new HashMap<>();
-        this.statements = new ArrayList<>();
-    }
+    private final Map<String, Declaration> declarationMap = new HashMap<>();
+    private final List<Statement> statements = new ArrayList<>();
 
     public static DslParser getParser(Tokenizer tokenizer) {
         return new DslParser(tokenizer);
@@ -124,9 +120,9 @@ public class DslParser {
                 executions.add(parsePlaySimul());
             }
             else {
-                String invalidStatement = tokenizer.getNext();
-                log.error("Invalid Statement in loop: " + invalidStatement);
-                throw new ParserException("Failed to parse program.\nInvalid statement in loop: " + invalidStatement);
+                String msg = "Invalid Statement in loop: " + tokenizer.getNext();
+                log.error(msg);
+                throw new ParserException("Failed to parse program.\n" + msg);
             }
         }
         tokenizer.getNext();
@@ -151,7 +147,9 @@ public class DslParser {
                 executions.add(parsePlaySimul());
             }
             else {
-                throw new ParserException("Failed to parse program.\nInvalid statement in function " + name + ".");
+                String msg = "Invalid statement in function" + name;
+                log.error(msg);
+                throw new ParserException("Failed to parse program.\n" + msg);
             }
         }
         tokenizer.getNext();
