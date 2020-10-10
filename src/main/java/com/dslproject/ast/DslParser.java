@@ -1,6 +1,6 @@
 package com.dslproject.ast;
 
-import com.dslproject.ast.Declarations.*;
+import com.dslproject.ast.declarations.*;
 import com.dslproject.ast.executions.Execution;
 import com.dslproject.ast.executions.Loop;
 import com.dslproject.ast.executions.Play;

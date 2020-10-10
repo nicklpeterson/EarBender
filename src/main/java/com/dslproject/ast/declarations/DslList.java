@@ -1,4 +1,4 @@
-package com.dslproject.ast.Declarations;
+package com.dslproject.ast.declarations;
 
 import com.dslproject.ast.DslVisitor;
 import lombok.Getter;
