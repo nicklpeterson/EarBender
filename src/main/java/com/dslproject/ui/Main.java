@@ -3,6 +3,7 @@ package com.dslproject.ui;
 
 
 import com.dslproject.ast.DslParser;
+import com.dslproject.ast.Program;
 import com.dslproject.music.Music;
 import com.dslproject.music.MusicLayer;
 import com.dslproject.music.MusicVar;
@@ -20,7 +21,7 @@ public class Main {
         try {
             Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
             DslParser parser = DslParser.getParser(tokenizer);
-            parser.parseProgram();
+            Program ast = parser.parseProgram();
           
 //             playMusic();
         } catch (Exception e) {

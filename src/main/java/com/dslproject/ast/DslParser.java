@@ -64,7 +64,7 @@ public class DslParser {
     }
 
     private Variable parseVariable() throws ParserException {
-        final String name = tokenizer.getNext().split(" ")[2];
+        final String name = tokenizer.getNext().split(" ")[2].trim();
         final String[] noteArray = tokenizer.getAndCheckNext(DslConstants.NOTES_REGEX).split("\\(")[1].replace(")", "").split(",");
         final List<Note> notes = newNoteList(noteArray);
         final String instrument = tokenizer.getAndCheckNext(DslConstants.INSTRUMENT_REGEX).split("\\(|\\)")[1];
@@ -74,7 +74,7 @@ public class DslParser {
 
     private DslList parseList() throws ParserException {
         String[] tokens = tokenizer.getNext().split(" |\\(|\\)");
-        final String name = tokens[2];
+        final String name = tokens[2].trim();
         tokens = Arrays.copyOfRange(tokens, 3, tokens.length);
         final List<Declaration> declarations = new ArrayList<>();
         for (String token : tokens) {
@@ -114,7 +114,7 @@ public class DslParser {
     }
 
     private Function parseFunction() throws ParserException {
-        String name = tokenizer.getNext().split(" ")[1];
+        String name = tokenizer.getNext().split(" ")[1].trim();
         tokenizer.getAndCheckNext("\\{");
         final List<Execution> executions = new ArrayList<>();
         while (!tokenizer.checkToken("\\}")) {
