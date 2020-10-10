@@ -2,7 +2,6 @@ package com.dslproject.ast.executions;
 
 import com.dslproject.ast.Declarations.Declaration;
 import com.dslproject.ast.DslVisitor;
-import com.dslproject.util.ListMethods;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

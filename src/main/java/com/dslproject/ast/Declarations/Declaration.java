@@ -2,7 +2,6 @@ package com.dslproject.ast.Declarations;
 
 import com.dslproject.ast.Statement;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,12 +1,9 @@
 package com.dslproject.ast.Declarations;
 
-import com.dslproject.music.Music;
 import com.dslproject.util.MusicNote;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Arrays;
 
 @Getter
 @Setter
