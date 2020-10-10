@@ -1,11 +1,24 @@
-SET layer1 NOTES(G[qq],D[q],E[h],F[qqq]) INSTRUMENT(piano) TEMPO(140)
-SET layer2 NOTES(C,B[w],C) INSTRUMENT(violin) TEMPO(160)
-SET layer3 NOTES(A,B,C) INSTRUMENT(piano) TEMPO(100)
-RHYTHM LAYER1(HHHHHHHH) LAYER2(B...B...) LAYER3(..S...S.)
+SET VAR var1 NOTES(G[q]) INSTRUMENT(piano) TEMPO(100)
+SET VAR var2 NOTES(F[q]) INSTRUMENT(piano) TEMPO(100)
+SET VAR var3 NOTES(E[q]) INSTRUMENT(trumpet) TEMPO(100)
 
-PLAY
-LOOP 3
-START layer1, layer2
-END LOOP
-START layer3
+SET VAR var4 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(piano) TEMPO(140)
+SET VAR var5 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(140)
+
+SET LIST layer1(var4)
+SET LIST layer2(var5)
+SET LIST layer3(var1, var2, var1)
+SET LIST layer4(var1, var2, var3)
+
+FUNCTION fun1 {
+    LOOP 3 TIMES
+    PLAY layer1, layer2
+    END LOOP
+}
+
+START
+PLAY fun1
+PLAY layer3, layer4
+PLAY layer2, layer2
+PLAY SIMUL layer1, layer2, layer3, layer4
 STOP

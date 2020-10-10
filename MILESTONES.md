@@ -66,3 +66,32 @@ are ready and stoked to start coding!
 ## MILESTONE 3
 - user studies: ./user_studies
 - EBNF: ./ebnf.txt
+
+On advice from Amir we have added some two additional features:
+1. Functions so users can easily re-use code
+2. Variables that users can add to layers
+
+Updated Sample Code:<br/>
+SET VAR var1 NOTES(G[q]) INSTRUMENT(piano) TEMPO(100)<br/>
+SET VAR var2 NOTES(F[q]) INSTRUMENT(piano) TEMPO(100)<br/>
+SET VAR var3 NOTES(E[q]) INSTRUMENT(trumpet) TEMPO(100)<br/>
+<br/>
+SET VAR var4 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(PIANO) TEMPO(140)<br/>
+SET VAR var5 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(140)<br/>
+<br/>
+SET LIST layer1(var4)<br/>
+SET LIST layer2(var5)<br/>
+SET LIST layer3(var1, var2, var1)<br/>
+SET LIST layer4(var1, var2, var3)<br/>
+<br/>
+FUNCTION fun1 {<br/>
+&nbsp;&nbsp;&nbsp;    LOOP 3 TIMES<br/>
+&nbsp;&nbsp;&nbsp;    START layer1, layer2<br/>
+&nbsp;&nbsp;&nbsp;    END LOOP<br/>
+}<br/>
+<br/>
+START<br/>
+DO fun1<br/>
+PLAY layer3, layer4, layer2, layer2<br/>
+PLAY SIMUL layer1, layer2, layer3, layer4<br/>
+STOP<br/>
