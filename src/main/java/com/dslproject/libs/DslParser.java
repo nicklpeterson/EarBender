@@ -36,7 +36,7 @@ public class DslParser {
     }
 
     private void parseStatement() throws ParserException {
-        if (tokenizer.checkToken("\\n")) {
+        if (tokenizer.checkToken(DslConstants.NEWLINE_REGEX)) {
             tokenizer.getNext();
         }
         else if (tokenizer.checkToken(DslConstants.VAR_REGEX)) {
@@ -111,7 +111,7 @@ public class DslParser {
         final int times = Integer.parseInt(tokenizer.getNext().split(" ")[1]);
         final List<Execution> executions = new ArrayList<>();
         while(!tokenizer.checkToken(DslConstants.END_REGEX)) {
-            if (tokenizer.checkToken("\\n")) {
+            if (tokenizer.checkToken(DslConstants.NEWLINE_REGEX)) {
                 tokenizer.getNext();
             }
             else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
@@ -138,7 +138,7 @@ public class DslParser {
         tokenizer.getAndCheckNext("\\{");
         final List<Execution> executions = new ArrayList<>();
         while (!tokenizer.checkToken("\\}")) {
-            if (tokenizer.checkToken("\\n")) {
+            if (tokenizer.checkToken(DslConstants.NEWLINE_REGEX)) {
                 tokenizer.getNext();
             }
             else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {

@@ -21,6 +21,7 @@ public class DslConstants {
     final static public String OPEN_BRACKET = "\\{";
     final static public String CLOSED_BRACKET = "\\}";
     final static public String FUNCTION_CALL_REGEX = "DO [A-Za-z0-9]+";
+    final static public String NEWLINE_REGEX = "\\n|\\r|\\r\\n";
 
 
     // Make sure to add new regex strings here so they get passed to the tokenizer
