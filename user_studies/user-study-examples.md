@@ -58,3 +58,30 @@ STOP
 YOUR TASK:
 
 Make a song with 3 layers using any instruments. Play the two layers three times in a loop. After the loop has finished play the third layer.
+
+-----------------------------
+
+SET VAR var1 NOTES(G[q]) INSTRUMENT(piano) TEMPO(100)
+SET VAR var2 NOTES(F[q]) INSTRUMENT(piano) TEMPO(100)
+SET VAR var3 NOTES(E[q]) INSTRUMENT(trumpet) TEMPO(100)
+
+SET VAR var4 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(PIANO) TEMPO(140)
+SET VAR var5 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(140)
+
+SET LIST layer1(var4)
+SET LIST layer2(var5)
+SET LIST layer3(var1, var2, var1)
+SET LIST layer4(var1, var2, var3)
+
+FUNCTION fun1 {
+    LOOP 3 TIMES
+    START layer1, layer2
+    END LOOP
+}
+
+START
+fun1
+PLAY layer3, layer4, layer2, layer2
+PLAY SIMUL layer1, layer2, layer3, layer4
+STOP
+
