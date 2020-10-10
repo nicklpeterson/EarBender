@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Play extends Execution {
+public class PlaySync extends Execution {
     List<Declaration> declarations;
 
     @Override

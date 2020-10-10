@@ -1,9 +1,10 @@
-package com.dslproject.ast;
+package com.dslproject.libs;
 
+import com.dslproject.ast.Program;
+import com.dslproject.ast.Statement;
 import com.dslproject.ast.declarations.*;
 import com.dslproject.ast.executions.*;
 import com.dslproject.exceptions.ParserException;
-import com.dslproject.libs.Tokenizer;
 import com.dslproject.util.DslConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +17,11 @@ public class DslParser {
     private final Tokenizer tokenizer;
     private final Map<String, Declaration> declarationMap;
     private final List<Statement> statements;
-    private Execution rhythm;
 
     public DslParser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
         this.declarationMap = new HashMap<>();
         this.statements = new ArrayList<>();
-        this.rhythm = null;
     }
 
     public static DslParser getParser(Tokenizer tokenizer) {
@@ -65,7 +64,9 @@ public class DslParser {
             tokenizer.getNext();
         }
         else {
-            throw new ParserException("Failed to parse. Invalid token.");
+            String invalidStatement = tokenizer.getNext();
+            log.error("Invalid Statement in program: " + invalidStatement);
+            throw new ParserException("Failed to parse. Invalid token : " + invalidStatement);
         }
     }
 
@@ -93,8 +94,8 @@ public class DslParser {
         return new PlaySimul(parsePlay(tokenizer.getNext().replace("PLAY SIMUL ", "")));
     }
 
-    private Play parsePlaySync() throws ParserException {
-        return new Play(parsePlay(tokenizer.getNext().replace("PLAY ", "")));
+    private PlaySync parsePlaySync() throws ParserException {
+        return new PlaySync(parsePlay(tokenizer.getNext().replace("PLAY ", "")));
     }
 
     private List<Declaration> parsePlay(String statement) throws ParserException {
@@ -123,7 +124,9 @@ public class DslParser {
                 executions.add(parsePlaySimul());
             }
             else {
-                throw new ParserException("Failed to parse program.\nInvalid statement in loop.");
+                String invalidStatement = tokenizer.getNext();
+                log.error("Invalid Statement in loop: " + invalidStatement);
+                throw new ParserException("Failed to parse program.\nInvalid statement in loop: " + invalidStatement);
             }
         }
         tokenizer.getNext();
@@ -175,7 +178,9 @@ public class DslParser {
     private void safeAddDeclaration(Declaration declaration) throws ParserException {
         final String name = declaration.getName();
         if (this.declarationMap.containsKey(name)) {
-            throw new ParserException("Failed to parse program.\n" + name + " was declared multiple times.");
+            String msg = name + " was declared multiple times.";
+            log.error(msg);
+            throw new ParserException("Failed to parse program.\n" + msg);
         } else {
             this.declarationMap.put(name, declaration);
         }
@@ -185,7 +190,9 @@ public class DslParser {
         if (declarationMap.containsKey(name)) {
             return this.declarationMap.get(name);
         } else {
-            throw new ParserException("FAILED to parse program.\n Attempted to add an undeclared variable to list " + name);
+            String msg = "Attempted to add an undeclared variable to list " + name;
+            log.error(msg);
+            throw new ParserException("FAILED to parse program.\n" + msg);
         }
     }
 }

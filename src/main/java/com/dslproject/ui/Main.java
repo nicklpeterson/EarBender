@@ -2,12 +2,11 @@ package com.dslproject.ui;
 
 
 
-import com.dslproject.ast.DslParser;
+import com.dslproject.libs.DslParser;
 import com.dslproject.ast.Program;
 import com.dslproject.music.Music;
 import com.dslproject.music.MusicLayer;
 import com.dslproject.music.MusicVar;
-import com.dslproject.exceptions.TokenizerException;
 import com.dslproject.libs.DslTokenizer;
 import com.dslproject.libs.Tokenizer;
 import org.slf4j.Logger;
