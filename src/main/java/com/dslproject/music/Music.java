@@ -1,10 +1,12 @@
 package com.dslproject.music;
 
+import com.dslproject.ast.declarations.Declaration;
+import com.dslproject.ast.declarations.Note;
+import com.dslproject.ast.declarations.Variable;
 import com.dslproject.ui.Main;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
 import org.jfugue.rhythm.Rhythm;
-import org.jfugue.theory.ChordProgression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,6 +109,38 @@ public class Music {
     }
 
     /**
+     * Add a music variable to be played later
+     *
+     * @param  var
+     * @param  channel
+     */
+    public void addMusicVar(Variable var, int channel){
+
+        String patternStr = "";
+        List<Note> notes = var.getNotes();
+
+        patternStr += "V" + channel;
+        patternStr += " " + "T" + var.getTempo();
+        patternStr += " " + "I[" + var.getInstrument() + "]";
+        patternStr += " " + var.getNotesString();
+
+        Pattern pattern = new Pattern(patternStr);
+        patternList.add(pattern);
+    }
+
+    /**
+     * Add a list of music variable to be played later
+     *
+     * @param  lists
+     * @param  channel
+     */
+    public void addMusicVarList(List<Variable> lists, int channel){
+        for (Variable var: lists) {
+            addMusicVar(var, channel);
+        }
+    }
+
+    /**
      * Add a layer to the rhythm
      * @param layer A string of rhythm e.x. "..X...X...X...XO"
      */
@@ -128,7 +162,7 @@ public class Music {
     public void playMusic(){
 
 //        logger.info("Size of list:  " + patternList.size());
-//        logger.info("list content:  " + patternList.toString());
+        logger.info("Music content:  " + patternList.toString());
 
         patternList.add(rhythm.getPattern());
         player.play(patternList.toArray(new Pattern[0]));
