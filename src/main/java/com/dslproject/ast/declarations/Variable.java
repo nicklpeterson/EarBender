@@ -22,6 +22,15 @@ public class Variable extends Declaration {
         this.tempo = tempo;
     }
 
+    public String getNotesString(){
+        StringBuilder noteStr = new StringBuilder();
+        for (Note note: notes) {
+            noteStr.append(" ").append(note.getNoteStr());
+        }
+
+        return noteStr.toString();
+    }
+
     @Override
     public <T> T accept(DslVisitor<T> v) {
         return null;

@@ -2,6 +2,7 @@ package com.dslproject.ui;
 
 
 
+import com.dslproject.libs.DslEvaluator;
 import com.dslproject.libs.DslParser;
 import com.dslproject.ast.Program;
 import com.dslproject.music.Music;
@@ -21,6 +22,9 @@ public class Main {
             Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
             Program ast = DslParser.getParser(tokenizer).parseProgram();
             log.info("Successfully Parsed Tokens");
+
+            DslEvaluator.getEvaluator(ast).evaluateProgram();
+            log.info("Evaluation done");
 
 //             playMusic();
         } catch (Exception e) {
