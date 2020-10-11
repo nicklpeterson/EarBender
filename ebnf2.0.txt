@@ -1,0 +1,26 @@
+http://www.jfugue.org/4/jfbmrkklprpp/TheCompleteGuideToJFugue-v1.pdf
+http://www.jfugue.org/examples.html
+
+PROGRAM ::= "START" STATEMENT* "STOP"
+STATEMENT ::= SET | PLAY | FUNCTION | LOOP
+NAME ::= [A-Za-z0-9]+
+
+SET ::= "SET " LIST | VAR
+LIST ::= "LIST " NAME "(" NAME (", " NAME)* ")"
+VAR ::= "VAR " NAME " " NOTES " " INSTRUMENT " " TEMPO
+NOTES ::= "NOTES(" SINGLE_NOTE (", " SINGLE_NOTE)* ")"
+SINGLE_NOTE ::= [A-G] ("[" DURATION "]")?
+DURATION ::= (“w” | “h” | “q” | “i” | “s” | “t” | “x” | “o”)+
+INSTRUMENT ::= "INSTRUMENT(" INSTRUMENT_TYPE ")"
+INSTRUMENT_TYPE ::= ”piano”|”bass”|”guitar”|”trumpet”|”violin”|”flute”|”whistle”
+TEMPO ::= "TEMPO(" [40-220] ")"
+
+PLAY ::= "PLAY " ("SIMUL ")? NAME (", " NAME)*
+
+FUNCTION ::= "FUNCTION " NAME " {" (PLAY | LOOP)* "}"
+
+LOOP ::= TIMES PLAY "END LOOP"
+TIMES ::= "LOOP " [0-9]+ " TIMES"
+
+
+
