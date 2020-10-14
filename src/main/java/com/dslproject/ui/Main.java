@@ -23,8 +23,6 @@ public class Main {
             Tokenizer tokenizer = DslTokenizer.createDslTokenizer("input.txt");
             Program ast = DslParser.getParser(tokenizer).parseProgram();
             log.info("Successfully Parsed Tokens");
-            System.out.println("hereerererere");
-            System.out.println(DslValidator.getValidator(ast).validateProgram());
             DslEvaluator.getEvaluator(ast).evaluateProgram();
             log.info("Evaluation done");
 
