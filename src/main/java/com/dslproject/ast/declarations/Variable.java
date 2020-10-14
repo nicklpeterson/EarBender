@@ -27,8 +27,19 @@ public class Variable extends Declaration {
         for (Note note: notes) {
             noteStr.append(" ").append(note.getNoteStr());
         }
-
         return noteStr.toString();
+    }
+
+    public String getRestNoteString(){
+        StringBuilder noteStr = new StringBuilder();
+        for (int i = 0; i < notes.size(); i++) {
+            noteStr.append(" ").append("R");
+        }
+        return noteStr.toString();
+    }
+
+    public int getNotesSize(){
+        return notes.size();
     }
 
     @Override
