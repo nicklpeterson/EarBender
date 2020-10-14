@@ -35,9 +35,6 @@ FUNCTION fun {
 }
 
 START
-PLAY SIMUL layer11, layer12, layer13
-PLAY fun
 PLAY layer3, layer4
-PLAY layer2, layer2
 PLAY SIMUL layer11, layer12, layer13
 STOP

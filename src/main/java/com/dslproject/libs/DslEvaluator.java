@@ -73,12 +73,10 @@ public class DslEvaluator{
         // add all the music variable that needs to be played synchronously
         for (Declaration d: declarations) {
             addDeclarationsToMusic(music, d, DEFAULT_CHANNELS, false);
-            for(int i = 1; i < DEFAULT_CHANNELS; i ++){
-                addDeclarationsToMusic(music, d, DEFAULT_CHANNELS, true);
+            for(int i = 1; i < TOTAL_CHANNELS; i ++){
+                addDeclarationsToMusic(music, d, i, true);
             }
         }
-
-//        music.playMusic();
     }
 
     /**
@@ -108,8 +106,6 @@ public class DslEvaluator{
                 addDeclarationsToMusic(music, d, i, true);
             }
         }
-
-//        music.playMusic();
     }
 
     /**
