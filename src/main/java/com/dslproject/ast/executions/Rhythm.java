@@ -11,9 +11,8 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 public class Rhythm extends Execution {
-    private String layer1;
-    private String layer2;
-    private String layer3;
+    private String layer;
+    private int times;
 
     @Override
     public <T> T accept(DslVisitor<T> v) {
