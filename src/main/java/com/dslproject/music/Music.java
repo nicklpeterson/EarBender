@@ -113,16 +113,22 @@ public class Music {
      *
      * @param  var
      * @param  channel
+     * @param  rest      true if we want to play all note as rest notes
      */
-    public void addMusicVar(Variable var, int channel){
+    public void addMusicVar(Variable var, int channel, boolean rest){
 
         String patternStr = "";
+        String noteString = var.getNotesString();
+        if(rest){
+            noteString = var.getRestNoteString();
+        }
+
         List<Note> notes = var.getNotes();
 
         patternStr += "V" + channel;
         patternStr += " " + "T" + var.getTempo();
         patternStr += " " + "I[" + var.getInstrument() + "]";
-        patternStr += " " + var.getNotesString();
+        patternStr += " " + noteString;
 
         Pattern pattern = new Pattern(patternStr);
         patternList.add(pattern);
@@ -133,10 +139,11 @@ public class Music {
      *
      * @param  lists
      * @param  channel
+     * @param  rest      true if we want to play all note as rest notes
      */
-    public void addMusicVarList(List<Variable> lists, int channel){
+    public void addMusicVarList(List<Variable> lists, int channel, boolean rest){
         for (Variable var: lists) {
-            addMusicVar(var, channel);
+            addMusicVar(var, channel, rest);
         }
     }
 

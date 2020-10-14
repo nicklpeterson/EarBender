@@ -5,12 +5,27 @@ SET VAR var3 NOTES(E[q]) INSTRUMENT(trumpet) TEMPO(100)
 SET VAR var4 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(piano) TEMPO(140)
 SET VAR var5 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(140)
 
-SET LIST layer1(var4, var1, var2)
-SET LIST layer2(var4, var1, var3)
-SET LIST layer3(var4, var1, var1)
-SET LIST layer4(var4, var1, var3)
 
-RHYTHM LAYER1(HHHHHHHH) LAYER2(B...B...) LAYER3(..S...S.)
+=======
+SET VAR var11 NOTES(C, B[w], C, C, D) INSTRUMENT(piano) TEMPO(100)
+SET VAR var12 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(100)
+SET VAR var13 NOTES(C, B[w], C, C, D) INSTRUMENT(trumpet) TEMPO(100)
+
+SET VAR var14 NOTES(B, A[w], F, D, A) INSTRUMENT(piano) TEMPO(100)
+SET VAR var15 NOTES(B, A[w], F, D, A) INSTRUMENT(violin) TEMPO(100)
+SET VAR var16 NOTES(B, A[w], F, D, A) INSTRUMENT(trumpet) TEMPO(100)
+
+SET LIST layer1(var4, var1, var1)
+SET LIST layer2(var5)
+SET LIST layer3(var1, var2, var1)
+SET LIST layer4(var1, var2, var3)
+
+SET LIST layer11(var11, var14)
+SET LIST layer12(var12, var15)
+SET LIST layer13(var13, var16)
+
+
+RHYTHM LAYER(O.OO...O.OO....O) LENGTH(2)
 
 FUNCTION fun {
     LOOP 3 TIMES
@@ -22,8 +37,6 @@ FUNCTION fun {
 }
 
 START
-PLAY fun
 PLAY layer3, layer4
-PLAY layer2, layer2
-PLAY SIMUL layer1, layer2, layer3, layer4
+PLAY SIMUL layer11, layer12, layer13
 STOP
