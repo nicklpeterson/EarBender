@@ -68,9 +68,10 @@ public class DslValidator {
             } else {
                 //check if all layers have the same number of variable
                 if (varNum != l.getVariables().size()) {
-                    return false;
+                    throw new ValidatorException("the number of variables are not the same");
                 } else if (!notesList.equals(l.getNotesList()) || !tempoList.equals(l.getTempoList())) {
-                    return false;
+                    throw new ValidatorException("the number of notes and the tempo are not consistent");
+
                 }
             }
         }
