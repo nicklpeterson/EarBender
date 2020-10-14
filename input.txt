@@ -5,6 +5,8 @@ SET VAR var3 NOTES(E[q]) INSTRUMENT(trumpet) TEMPO(100)
 SET VAR var4 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(piano) TEMPO(140)
 SET VAR var5 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(140)
 
+
+=======
 SET VAR var11 NOTES(C, B[w], C, C, D) INSTRUMENT(piano) TEMPO(100)
 SET VAR var12 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(100)
 SET VAR var13 NOTES(C, B[w], C, C, D) INSTRUMENT(trumpet) TEMPO(100)
