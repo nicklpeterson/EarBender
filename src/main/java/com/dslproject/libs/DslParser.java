@@ -158,10 +158,11 @@ public class DslParser {
 
     private Rhythm parseRhythm() {
         String[] tokens = tokenizer.getNext().split("( )|\\(|\\)");
+        int times = Integer.parseInt(tokens[5]);
+
         return Rhythm.builder()
-                .layer1(tokens[2])
-                .layer2(tokens[5])
-                .layer3(tokens[8])
+                .layer(tokens[2])
+                .times(times)
                 .build();
     }
 

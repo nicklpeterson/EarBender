@@ -58,7 +58,7 @@ public class DslEvaluator{
             List<Declaration> declarations = ((PlaySimul) s).getDeclarations();
             evaluateSimul(music, declarations);
         } else if(s.getClass().equals(Rhythm.class)){
-            /** TODO: implement rhythm */
+            evaluateRhythm(music, (Rhythm) s);
         }
     }
 
@@ -96,7 +96,7 @@ public class DslEvaluator{
         }
 
         for(int i = 0; i < TOTAL_CHANNELS; i ++){
-            log.debug("Channel:  " + i);
+//            log.debug("Channel:  " + i);
             Declaration d;
             if(i < size){
                 d = declarations.get(i);
@@ -152,6 +152,31 @@ public class DslEvaluator{
                 evaluateStatement(music, e);
             }
         }
+    }
+
+    /**
+     * Evaluate the rhythm statement
+     *
+     * @param music
+     * @param rhythm
+     * @throws EvaluationException
+     */
+    private void evaluateRhythm(Music music, Rhythm rhythm) throws EvaluationException {
+
+        String layer = rhythm.getLayer();
+        int times = rhythm.getTimes();
+
+        if(!isEmptyString(layer) && times > 0){
+            music.addRhythmLayer(layer);
+            music.setRhythmLength(times);
+        }
+
+        music.setRhythmLength(3);
+
+    }
+
+    private boolean isEmptyString(String str){
+        return (str == null || str.equals(""));
     }
 
 }

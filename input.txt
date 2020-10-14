@@ -23,7 +23,7 @@ SET LIST layer12(var12, var15)
 SET LIST layer13(var13, var16)
 
 
-RHYTHM LAYER1(HHHHHHHH) LAYER2(B...B...) LAYER3(..S...S.)
+RHYTHM LAYER(O.OO...O.OO....O) LENGTH(2)
 
 FUNCTION fun {
     LOOP 3 TIMES
