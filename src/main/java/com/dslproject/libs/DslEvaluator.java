@@ -19,9 +19,11 @@ import java.util.*;
 public class DslEvaluator{
 
     final private Logger log = LoggerFactory.getLogger(DslEvaluator.class);
+    final private Music music = new Music();
+
     final private int TOTAL_CHANNELS = 3;
     final private int DEFAULT_CHANNELS = 0;
-    private final Program ast;
+    final private Program ast;
 
     public static DslEvaluator getEvaluator(Program ast) {
         return new DslEvaluator(ast);
@@ -34,15 +36,13 @@ public class DslEvaluator{
      */
     public void evaluateProgram() throws EvaluationException {
 
-        Music music = new Music();
-
         // go through the statement and evaluate each statement
         List<Statement> statements = ast.getStatements();
         for (Statement s: statements) {
-            evaluateStatement(music, s);
+            evaluateStatement(s);
         }
 
-        music.playMusic();
+        this.music.playMusic();
     }
 
     /**
@@ -50,15 +50,15 @@ public class DslEvaluator{
      *
      * @throws EvaluationException
      */
-    public void evaluateStatement(Music music, Statement s) throws EvaluationException {
+    public void evaluateStatement(Statement s) throws EvaluationException {
         if(s.getClass().equals(PlaySync.class)){
             List<Declaration> declarations = ((PlaySync) s).getDeclarations();
-            evaluateSync(music, declarations);
+            evaluateSync(declarations);
         } else if(s.getClass().equals(PlaySimul.class)){
             List<Declaration> declarations = ((PlaySimul) s).getDeclarations();
-            evaluateSimul(music, declarations);
+            evaluateSimul(declarations);
         } else if(s.getClass().equals(Rhythm.class)){
-            evaluateRhythm(music, (Rhythm) s);
+            evaluateRhythm((Rhythm) s);
         }
     }
 
@@ -68,13 +68,13 @@ public class DslEvaluator{
      * @param declarations
      * @throws EvaluationException
      */
-    private void evaluateSync(Music music, List<Declaration> declarations) throws EvaluationException {
+    private void evaluateSync(List<Declaration> declarations) throws EvaluationException {
 
         // add all the music variable that needs to be played synchronously
         for (Declaration d: declarations) {
-            addDeclarationsToMusic(music, d, DEFAULT_CHANNELS, false);
+            addDeclarationsToMusic(d, DEFAULT_CHANNELS, false);
             for(int i = 1; i < TOTAL_CHANNELS; i ++){
-                addDeclarationsToMusic(music, d, i, true);
+                addDeclarationsToMusic(d, i, true);
             }
         }
     }
@@ -85,7 +85,7 @@ public class DslEvaluator{
      * @param declarations
      * @throws EvaluationException
      */
-    private void evaluateSimul(Music music, List<Declaration> declarations) throws EvaluationException {
+    private void evaluateSimul(List<Declaration> declarations) throws EvaluationException {
 
         int size = declarations.size();
         // add all the music variable that needs to be played simultaneously
@@ -100,10 +100,10 @@ public class DslEvaluator{
             Declaration d;
             if(i < size){
                 d = declarations.get(i);
-                addDeclarationsToMusic(music, d, i, false);
+                addDeclarationsToMusic(d, i, false);
             } else {
                 d = declarations.get(0);
-                addDeclarationsToMusic(music, d, i, true);
+                addDeclarationsToMusic(d, i, true);
             }
         }
     }
@@ -111,34 +111,32 @@ public class DslEvaluator{
     /**
      * Add the music variables to be played synchronously later
      *
-     * @param music
      * @param d
      * @param channel
      * @param  rest      true if we want to play all note as rest notes
      * @throws EvaluationException
      */
-    private void addDeclarationsToMusic(Music music, Declaration d, int channel, boolean rest) throws EvaluationException {
+    private void addDeclarationsToMusic(Declaration d, int channel, boolean rest) throws EvaluationException {
         if (d.getClass().equals(Variable.class)) {
             // play a single music variable
-            music.addMusicVar((Variable) d, channel, rest);
+            this.music.addMusicVar((Variable) d, channel, rest);
         }else if (d.getClass().equals(DslList.class)) {
             // play a list of music variables
             List<Declaration> subDeclarations = ((DslList) d).getDeclarations();
-            music.addMusicVarList((List<Variable>)(List<?>) subDeclarations, channel, rest);
+            this.music.addMusicVarList((List<Variable>)(List<?>) subDeclarations, channel, rest);
         }else if (d.getClass().equals(Function.class)) {
             List<Execution> executions = ((Function) d).getExecutions();
-            evaluateFunction(music, executions);
+            evaluateFunction(executions);
         }
     }
 
     /**
      * Evaluate the function statement
      *
-     * @param music
      * @param executions
      * @throws EvaluationException
      */
-    private void evaluateFunction(Music music, List<Execution> executions) throws EvaluationException {
+    private void evaluateFunction(List<Execution> executions) throws EvaluationException {
         // we allow loops in the function
         for (Execution e: executions) {
             if(e.getClass().equals(Loop.class)){
@@ -146,10 +144,10 @@ public class DslEvaluator{
                 List<Execution> newExecutions = ((Loop) e).getExecutions();
                 for (int i=0; i < loopTimes; i++) {
                     // use recursion to evaluate the loop statement
-                    evaluateFunction(music, newExecutions);
+                    evaluateFunction(newExecutions);
                 }
             } else {
-                evaluateStatement(music, e);
+                evaluateStatement(e);
             }
         }
     }
@@ -157,21 +155,20 @@ public class DslEvaluator{
     /**
      * Evaluate the rhythm statement
      *
-     * @param music
      * @param rhythm
      * @throws EvaluationException
      */
-    private void evaluateRhythm(Music music, Rhythm rhythm) throws EvaluationException {
+    private void evaluateRhythm(Rhythm rhythm) throws EvaluationException {
 
         String layer = rhythm.getLayer();
         int times = rhythm.getTimes();
 
         if(!isEmptyString(layer) && times > 0){
-            music.addRhythmLayer(layer);
-            music.setRhythmLength(times);
+            this.music.addRhythmLayer(layer);
+            this.music.setRhythmLength(times);
         }
 
-        music.setRhythmLength(3);
+        this.music.setRhythmLength(3);
 
     }
 
