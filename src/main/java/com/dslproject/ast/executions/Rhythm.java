@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -17,6 +19,11 @@ public class Rhythm extends Execution {
     @Override
     public int getBeats() {
         return 0;
+    }
+
+    @Override
+    public List<Integer> getTempoList() {
+        return null;
     }
 
     @Override

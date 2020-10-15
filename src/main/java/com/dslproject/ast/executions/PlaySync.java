@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,7 +17,20 @@ public class PlaySync extends Execution {
 
     @Override
     public int getBeats() {
-        return declarations.stream().mapToInt(x -> getBeats()).sum();
+        int beats = 0;
+        for (Declaration declaration : declarations) {
+            beats += declaration.getBeats();
+        }
+        return beats;
+    }
+
+    @Override
+    public List<Integer> getTempoList() {
+        List<Integer> tempoList = new ArrayList<>();
+        for (Declaration declaration : declarations) {
+            tempoList.addAll(declaration.getTempoList());
+        }
+        return tempoList;
     }
 
     @Override

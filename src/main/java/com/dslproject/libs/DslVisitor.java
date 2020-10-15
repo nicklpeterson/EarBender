@@ -11,12 +11,12 @@ import com.dslproject.ast.executions.Rhythm;
 
 public interface DslVisitor<T> {
 
-    void visit(T Context, DslList dslList);
-    void visit(T Context, Function function);
-    void visit(T Context, Variable variable);
-    void visit(T Context, Loop loop);
-    void visit(T Context, PlaySimul playSimul);
-    void visit(T Context, PlaySync playSync);
-    void visit(T Context, Program program);
-    void visit(T Context, Rhythm rhythm);
+    void visit(T context, DslList dslList);
+    void visit(T context, Function function);
+    void visit(T context, Variable variable);
+    void visit(T context, Loop loop);
+    void visit(T context, PlaySimul playSimul);
+    void visit(T context, PlaySync playSync);
+    void visit(T context, Program program);
+    void visit(T context, Rhythm rhythm);
 }

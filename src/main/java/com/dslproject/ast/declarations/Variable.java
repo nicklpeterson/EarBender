@@ -4,6 +4,7 @@ import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -45,6 +46,13 @@ public class Variable extends Declaration {
             beats += note.getBeats();
         }
         return beats;
+    }
+
+    @Override
+    public List<Integer> getTempoList() {
+        List<Integer> tempoList = new ArrayList<>();
+        tempoList.add(this.getTempo());
+        return tempoList;
     }
 
     public int getNotesSize(){

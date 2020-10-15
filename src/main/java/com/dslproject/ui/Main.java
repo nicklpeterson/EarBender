@@ -14,7 +14,8 @@ public class Main {
             Tokenizer tokenizer = DslTokenizer.createDslTokenizer("rhody.txt");
             Program ast = DslParser.getParser(tokenizer).parseProgram();
             log.info("Successfully Parsed Tokens");
-            // System.out.println(DslValidator.getValidator(ast).validateProgram());
+            DslValidator.getValidator(ast).validateProgram();
+            log.info("Succesfully validated AST");
             DslEvaluator.getEvaluator(ast).evaluateProgram();
             log.info("Evaluation done");
 

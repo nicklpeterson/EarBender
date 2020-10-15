@@ -5,6 +5,7 @@ import com.dslproject.ast.executions.Execution;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,7 +20,20 @@ public class Function extends Declaration {
 
     @Override
     public int getBeats() {
-        return executions.stream().mapToInt(x -> getBeats()).sum();
+        int beats = 0;
+        for (Execution execution : executions) {
+            beats += execution.getBeats();
+        }
+        return beats;
+    }
+
+    @Override
+    public List<Integer> getTempoList() {
+        List<Integer> tempoList = new ArrayList<>();
+        for (Execution execution : executions) {
+            tempoList.addAll(execution.getTempoList());
+        }
+        return tempoList;
     }
 
     @Override
