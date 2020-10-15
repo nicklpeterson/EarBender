@@ -1,6 +1,6 @@
 package com.dslproject.ast;
 
-import com.dslproject.libs.Node;
+import com.dslproject.libs.DslVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,8 @@ public class Program extends Node {
         this.statements = statements;
     }
 
-    //@Override
-    public <T> T accept(DslVisitor<T> v) {
-//        return v.visit(this);
-        return null;
+    @Override
+    public <T> void accept(T context, DslVisitor<T> v) {
+        v.visit(context, this);
     }
 }

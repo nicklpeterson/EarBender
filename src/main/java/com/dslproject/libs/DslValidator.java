@@ -45,7 +45,7 @@ public class DslValidator {
         }
 
         return isValid;
-    };
+    }
 
 
     public boolean validateSimul(List<Declaration> declarations){
@@ -71,7 +71,6 @@ public class DslValidator {
                     throw new ValidatorException("the number of variables are not the same");
                 } else if (!notesList.equals(l.getNotesList()) || !tempoList.equals(l.getTempoList())) {
                     throw new ValidatorException("the number of notes and the tempo are not consistent");
-
                 }
             }
         }

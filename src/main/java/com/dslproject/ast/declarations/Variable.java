@@ -1,6 +1,6 @@
 package com.dslproject.ast.declarations;
 
-import com.dslproject.ast.DslVisitor;
+import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,13 +38,21 @@ public class Variable extends Declaration {
         return noteStr.toString().trim();
     }
 
+    @Override
+    public int getBeats() {
+        int beats = 0;
+        for (Note note : notes) {
+            beats += note.getBeats();
+        }
+        return beats;
+    }
+
     public int getNotesSize(){
         return notes.size();
     }
 
     @Override
-    public <T> T accept(DslVisitor<T> v) {
-        return null;
+    public <T> void accept(T context, DslVisitor<T> v) {
+        v.visit(context, this);
     }
-
 }

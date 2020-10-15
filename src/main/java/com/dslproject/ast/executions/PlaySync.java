@@ -1,7 +1,7 @@
 package com.dslproject.ast.executions;
 
 import com.dslproject.ast.declarations.Declaration;
-import com.dslproject.ast.DslVisitor;
+import com.dslproject.libs.DslVisitor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,12 @@ public class PlaySync extends Execution {
     List<Declaration> declarations;
 
     @Override
-    public <T> T accept(DslVisitor<T> v) {
-        return null;
+    public int getBeats() {
+        return declarations.stream().mapToInt(x -> getBeats()).sum();
+    }
+
+    @Override
+    public <T> void accept(T context, DslVisitor<T> v) {
+        v.visit(context, this);
     }
 }

@@ -1,6 +1,6 @@
 package com.dslproject.ast.executions;
 
-import com.dslproject.ast.DslVisitor;
+import com.dslproject.libs.DslVisitor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +15,12 @@ public class Rhythm extends Execution {
     private int times;
 
     @Override
-    public <T> T accept(DslVisitor<T> v) {
-        return null;
+    public int getBeats() {
+        return 0;
+    }
+
+    @Override
+    public <T> void accept(T context, DslVisitor<T> v) {
+        v.visit(context, this);
     }
 }

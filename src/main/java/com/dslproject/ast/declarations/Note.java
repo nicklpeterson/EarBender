@@ -25,6 +25,23 @@ public class Note {
         return this.note.name() + this.length;
     }
 
+    public int getBeats() {
+        int beats = 0;
+        char[] tokens = length.toCharArray();
+        for (char token : tokens) {
+            if (token == 'q') {
+                beats += 1;
+            }
+            else if (token == 'h') {
+                beats += 2;
+            }
+            else if (token == 'w') {
+                beats += 4;
+            }
+        }
+        return beats;
+    }
+
     private MusicNote stringToNote(String note) {
         MusicNote musicNote;
         switch (note.trim()) {

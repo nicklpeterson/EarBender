@@ -1,6 +1,6 @@
 package com.dslproject.ast.declarations;
 
-import com.dslproject.ast.DslVisitor;
+import com.dslproject.libs.DslVisitor;
 import com.dslproject.ast.executions.Execution;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +18,12 @@ public class Function extends Declaration {
     }
 
     @Override
-    public <T> T accept(DslVisitor<T> v) {
-        return null;
+    public int getBeats() {
+        return executions.stream().mapToInt(x -> getBeats()).sum();
     }
 
+    @Override
+    public <T> void accept(T context, DslVisitor<T> v) {
+        v.visit(context, this);
+    }
 }
