@@ -11,7 +11,10 @@ SET VAR measure8 NOTES(C[w]) INSTRUMENT(violin) TEMPO(150)
 SET LIST line1(measure1, measure2, measure3, measure4)
 SET LIST line2(measure5, measure6, measure7, measure8)
 
+RHYTHM LAYER(XXXXXXXXXXXXXXXX) LENGTH(4)
+
 START
 PLAY line1
+PLAY line2
 PLAY SIMUL line1, line2
 STOP

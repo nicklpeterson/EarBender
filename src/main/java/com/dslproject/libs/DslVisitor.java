@@ -9,14 +9,14 @@ import com.dslproject.ast.executions.PlaySimul;
 import com.dslproject.ast.executions.PlaySync;
 import com.dslproject.ast.executions.Rhythm;
 
-public interface DslVisitor<T> {
+public interface DslVisitor<T, C> {
 
-    void visit(T context, DslList dslList);
-    void visit(T context, Function function);
-    void visit(T context, Variable variable);
-    void visit(T context, Loop loop);
-    void visit(T context, PlaySimul playSimul);
-    void visit(T context, PlaySync playSync);
-    void visit(T context, Program program);
-    void visit(T context, Rhythm rhythm);
+    T visit(C context, DslList dslList);
+    T visit(C context, Function function);
+    T visit(C context, Variable variable);
+    T visit(C context, Loop loop);
+    T visit(C context, PlaySimul playSimul);
+    T visit(C context, PlaySync playSync);
+    T visit(C context, Program program);
+    T visit(C context, Rhythm rhythm);
 }

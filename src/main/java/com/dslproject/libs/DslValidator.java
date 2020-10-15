@@ -1,6 +1,5 @@
 package com.dslproject.libs;
 
-import ch.qos.logback.core.boolex.EvaluationException;
 import com.dslproject.ast.Program;
 import com.dslproject.ast.Statement;
 import com.dslproject.ast.declarations.Declaration;
@@ -12,10 +11,15 @@ import com.dslproject.exceptions.ValidatorException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 
+/*
+This class is just validating the PLAY SIMUL command.
+the parser and tokenizer should catch any other errors, but
+we may want to add more validation to be safe.
+ */
 @RequiredArgsConstructor
-
-public class DslValidator implements DslVisitor<Void> {
+public class DslValidator implements DslVisitor<Boolean, Void> {
     private final Program ast;
 
     public  static DslValidator getValidator(Program ast) {
@@ -23,8 +27,7 @@ public class DslValidator implements DslVisitor<Void> {
     }
 
     public boolean validateProgram(){
-        ast.accept(null, this);
-        return true;
+        return ast.accept(null, this);
     }
 
     public boolean validateSimul(PlaySimul playSimul) {
@@ -34,53 +37,51 @@ public class DslValidator implements DslVisitor<Void> {
             beatList.add(declaration.getBeats());
         }
         if (tempoList.size() > 1) {
-            throw new ValidatorException("Declarations do not all have the same tempo");
+            throw new ValidatorException("Declarations do not all have the same tempo.");
         }
         if (beatList.size() > 1) {
-            throw new ValidatorException("The declarations are not all the same length");
+            throw new ValidatorException("The declarations are not all the same length.");
         }
         return true;
     }
 
     @Override
-    public void visit(Void context, DslList dslList) {
-        // Do nothing
+    public Boolean visit(Void context, DslList dslList) {
+        return true;
     }
 
     @Override
-    public void visit(Void context, Function function) {
-        // Do nothing
+    public Boolean visit(Void context, Function function) {
+        return true;
     }
 
     @Override
-    public void visit(Void context, Variable variable) {
-        // Do nothing
+    public Boolean visit(Void context, Variable variable) {
+        return true;
     }
 
     @Override
-    public void visit(Void context, Loop loop) {
-        // Do nothing
+    public Boolean visit(Void context, Loop loop) {
+        return true;
     }
 
     @Override
-    public void visit(Void context, PlaySimul playSimul) {
-        validateSimul(playSimul);
+    public Boolean visit(Void context, PlaySimul playSimul) {
+        return validateSimul(playSimul);
     }
 
     @Override
-    public void visit(Void context, PlaySync playSync) {
-        // Do nothing
+    public Boolean visit(Void context, PlaySync playSync) {
+        return true;
     }
 
     @Override
-    public void visit(Void context, Program program) {
-        for (Statement statement : program.getStatements()) {
-            statement.accept(context, this);
-        }
+    public Boolean visit(Void context, Program program) {
+        return program.getStatements().stream().allMatch(x -> x.accept(context, this));
     }
 
     @Override
-    public void visit(Void context, Rhythm rhythm) {
-        // Do nothing
+    public Boolean visit(Void context, Rhythm rhythm) {
+        return true;
     }
 }

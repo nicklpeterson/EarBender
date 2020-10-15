@@ -10,7 +10,7 @@ public class DslConstants {
     final static public String NOTES_REGEX = "NOTES\\(([A-G](\\[(q|h|w)*\\])?)(,( *)([A-G](\\[(q|h|w)*\\])?))*\\)";
     final static public String INSTRUMENT_REGEX = "INSTRUMENT\\(((piano)|(violin)|(trumpet)|(guitar)|(bass))\\)"; // TODO: Add more instruments
     final static public String TEMPO_REGEX = "TEMPO\\(([0-9]+)\\)";
-    final static public String RHYTHM_REGEX = "RHYTHM LAYER\\([X|O|o|.|^|`|\\*|!|\\+]*\\) LENGTH\\([0-9]+\\)";
+    final static public String RHYTHM_REGEX = "RHYTHM (( *)?LAYER\\([S|H|B|X|O|o|.|^|`|\\*|!|\\+]{16}\\))+( *)?LENGTH\\([0-9]+\\)";
     final static public String START_REGEX = "START";
     final static public String SIMUL_REGEX = "PLAY SIMUL [A-Za-z0-9]+(,( *)[A-Za-z0-9]+)*";
     final static public String LOOP_REGEX = "LOOP [0-9]+ TIMES";

@@ -1,6 +1,7 @@
 package com.dslproject.ast;
 
 import com.dslproject.libs.DslVisitor;
+import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Program extends Node {
     }
 
     @Override
-    public <T> void accept(T context, DslVisitor<T> v) {
-        v.visit(context, this);
+    public <T, C> T accept(C context, DslVisitor<T, C> v) {
+        return v.visit(context, this);
     }
 }
