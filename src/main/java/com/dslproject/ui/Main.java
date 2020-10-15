@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger(Main.class);
         try {
-            Tokenizer tokenizer = DslTokenizer.createDslTokenizer("short.txt");
+            Tokenizer tokenizer = DslTokenizer.createDslTokenizer("rhody.txt");
             Program ast = DslParser.getParser(tokenizer).parseProgram();
             log.info("Successfully Parsed Tokens");
             System.out.println(DslValidator.getValidator(ast).validateProgram());

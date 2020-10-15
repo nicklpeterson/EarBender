@@ -13,7 +13,6 @@ SET LIST line2(measure5, measure6, measure7, measure8)
 
 FUNCTION rhody {
     PLAY line1
-    PLAY line2
 }
 
 START
