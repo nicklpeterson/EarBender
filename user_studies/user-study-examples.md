@@ -14,23 +14,33 @@ STOP
 -----------------------------
 
 **EXAMPLE 2**: Play two layers simultaneously. <br/>
-**Description**: You can play two layers simultaneously by using the SIMUL command. <br/>
-If one ends first it will just stop while the other continues.
+**Description**: You can play different layers simultaneously by using the SIMUL command. <br/>
+However, these layers should have same size of variables, and these variables should have same number of notes and same tempo.
 
-SET VAR var1 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(PIANO) TEMPO(140)
-SET VAR var2 NOTES(C, B[w], C) INSTRUMENT(violin) TEMPO(160)
+SET VAR var11 NOTES(C, B[w], C, C, D) INSTRUMENT(piano) TEMPO(100)
+SET VAR var12 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(100)
+SET VAR var13 NOTES(C, B[w], C, C, D) INSTRUMENT(trumpet) TEMPO(100)
 
-SET LIST layer1(var1)
-SET LIST layer2(var2)
+SET VAR var14 NOTES(B, A[w], F, D, A) INSTRUMENT(piano) TEMPO(100)
+SET VAR var15 NOTES(B, A[w], F, D, A) INSTRUMENT(violin) TEMPO(100)
+SET VAR var16 NOTES(B, A[w], F, D, A) INSTRUMENT(trumpet) TEMPO(100)
+
+
+SET LIST layer11(var11, var14)
+SET LIST layer12(var12, var15)
+SET LIST layer13(var13, var16)
+// all layers should have two vars if you want to play them simultaneously
+// var11, var12, var13 should have same number of notes and tempo, same for var14, var15, var16 
+
 
 START
-PLAY SIMUL layer1, layer2
+PLAY SIMUL layer11, layer12, layer13
 STOP
 
 -----------------------------
 
 **EXAMPLE 3**: Define a rhythm layer<br/>
-**Description**: The rhythm layer will play in throughout the song and can containe three "sub" layers. <br/>
+**Description**: The rhythm layer will play in throughout the song and length can be determined by number of measures <br/>
 A sub layer is composed of 16th not beats each must be defined as one of the following:<br/>
 . - no sound
 H - hi-hat
@@ -39,7 +49,7 @@ S - Snare
 C - Crash Cymbal
 
 SET VAR var1 NOTES(G[q], C[qq], D[qqq], E[qqqq]) INSTRUMENT(trumpet) TEMPO(100)
-RHYTHM LAYER1(HHHHHHHH) LAYER2(B...B...) LAYER3(..S...S.) TEMPO(100)
+RHYTHM LAYER(B.BB...B.BB....B) LENGTH(2)
 
 SET LIST layer1(var1)
 
@@ -87,36 +97,36 @@ PLAY layer1
 STOP
 
 ----------------------------
+**EXAMPLE 6**: Loop within loop
+**Description**: You can generate loops within loop.
 
-YOUR TASK:
+SET VAR var1 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(PIANO) TEMPO(140)
+SET VAR var2 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(140)
 
-Make a song with 3 layers using any instruments. <br/>
-Play the two layers simultaneously, three times in a loop (Use function command to group the loop). <br/>
-After the loop has finished play the third layer.
+SET LIST layer1(var1)
+SET LIST layer2(var2)
 
------------------------------
 
-SET VAR var1 NOTES(G[q]) INSTRUMENT(piano) TEMPO(100)
-SET VAR var2 NOTES(F[q]) INSTRUMENT(piano) TEMPO(100)
-SET VAR var3 NOTES(E[q]) INSTRUMENT(trumpet) TEMPO(100)
-
-SET VAR var4 NOTES(G[qq], D[q], E[h], F[qqq]) INSTRUMENT(PIANO) TEMPO(140)
-SET VAR var5 NOTES(C, B[w], C, C, D) INSTRUMENT(violin) TEMPO(140)
-
-SET LIST layer1(var4)
-SET LIST layer2(var5)
-SET LIST layer3(var1, var2, var1)
-SET LIST layer4(var1, var2, var3)
-
-FUNCTION fun1 {
+FUNCTION fun {
     LOOP 3 TIMES
-    PLAY layer1, layer2
+        PLAY layer1
+        LOOP 2 TIMES
+            PLAY layer2
+        END LOOP
     END LOOP
 }
 
 START
 fun1
-PLAY layer3, layer4, layer2, layer2
-PLAY SIMUL layer1, layer2, layer3, layer4
 STOP
+
+----------------------------
+
+YOUR TASK:
+
+Make a song with a rhythm (any beat & length) and 3 layers using any instruments. <br/>
+Play the two layers simultaneously, three times in a loop (Use function command to group the loop). <br/>
+After the loop has finished play the third layer.
+
+-----------------------------
 

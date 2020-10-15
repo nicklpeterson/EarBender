@@ -1,8 +1,8 @@
 http://www.jfugue.org/4/jfbmrkklprpp/TheCompleteGuideToJFugue-v1.pdf
 http://www.jfugue.org/examples.html
 
-PROGRAM ::= "START" STATEMENT* "STOP"
-STATEMENT ::= SET | PLAY | FUNCTION | LOOP
+PROGRAM ::= STATEMENT*
+STATEMENT ::= SET | PLAY | FUNCTION | LOOP | START | STOP | RHYTHM
 NAME ::= [A-Za-z0-9]+
 
 SET ::= "SET " LIST | VAR
@@ -17,9 +17,15 @@ TEMPO ::= "TEMPO(" [40-220] ")"
 
 PLAY ::= "PLAY " ("SIMUL ")? NAME (", " NAME)*
 
+RHYTHM ::= "RHYTHM layer(" BEAT ") length(" [0-9]+ ")"
+BEAT ::= (“.” | “B” | “C” | “S” | “H” | “O”)+
+
+START ::= "START"
+STOP ::= "STOP"
+
 FUNCTION ::= "FUNCTION " NAME " {" (PLAY | LOOP)* "}"
 
-LOOP ::= TIMES PLAY "END LOOP"
+LOOP ::= TIMES PLAY|LOOP "END LOOP"
 TIMES ::= "LOOP " [0-9]+ " TIMES"
 
 
