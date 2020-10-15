@@ -25,7 +25,7 @@ public class Variable extends Declaration {
     public String getNotesString(){
         StringBuilder noteStr = new StringBuilder();
         for (Note note: notes) {
-            noteStr.append(" ").append(note.getNoteStr());
+            noteStr.append(" ").append(note.toString());
         }
         return noteStr.toString();
     }

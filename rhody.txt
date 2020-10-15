@@ -1,0 +1,21 @@
+SET VAR measure1 NOTES(E[h], E[q], D[q]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure2 NOTES(C[h], C[h]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure3 NOTES(D[h], D[q], F[q]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure4 NOTES(E[q], D[q], C[h]) INSTRUMENT(violin) TEMPO(150)
+
+SET VAR measure5 NOTES(G[h], G[q], F[q]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure6 NOTES(E[h], E[q], E[q]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure7 NOTES(D[q], F[q], E[q], D[q]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure8 NOTES(C[w]) INSTRUMENT(violin) TEMPO(150)
+
+SET LIST line1(measure1, measure2, measure3, measure4)
+SET LIST line2(measure5, measure6, measure7, measure8)
+
+FUNCTION rhody {
+    PLAY line1
+    PLAY line2
+}
+
+START
+PLAY rhody
+STOP

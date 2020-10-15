@@ -14,13 +14,15 @@ public class Note {
     private String length;
 
     private MusicNote note;
-    private String noteStr;
 
     public Note(String noteString) {
         String[] tokens = noteString.split("\\[|\\]");
         this.note = stringToNote(tokens[0]);
         this.length = tokens.length > 1 ? tokens[1].trim() : "q";
-        this.noteStr = tokens[0].trim();
+    }
+
+    public String toString() {
+        return this.note.name() + this.length;
     }
 
     private MusicNote stringToNote(String note) {

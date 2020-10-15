@@ -60,7 +60,4 @@ public class simulLayer {
     public void setNotes(int notes) {
         this.notes = notes;
     }
-
-
-
 }
