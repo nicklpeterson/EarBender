@@ -39,7 +39,7 @@ public class DslEvaluator{
         // go through the statement and evaluate each statement
         List<Statement> statements = ast.getStatements();
         for (Statement s: statements) {
-            evaluateStatement(s);
+            evaluateStatement(s, false);
         }
 
         this.music.playMusic();
@@ -47,18 +47,19 @@ public class DslEvaluator{
 
     /**
      * Evaluate the statement
-     *
+     * @param s
+     * @param  rest      true if we want to play all note as rest notes
      * @throws EvaluationException
      */
-    public void evaluateStatement(Statement s) throws EvaluationException {
+    public void evaluateStatement(Statement s, boolean rest) throws EvaluationException {
         if(s.getClass().equals(PlaySync.class)){
             List<Declaration> declarations = ((PlaySync) s).getDeclarations();
-            evaluateSync(declarations);
+            evaluateSync(declarations, rest);
         } else if(s.getClass().equals(PlaySimul.class)){
             List<Declaration> declarations = ((PlaySimul) s).getDeclarations();
-            evaluateSimul(declarations);
+            evaluateSimul(declarations, rest);
         } else if(s.getClass().equals(Rhythm.class)){
-            evaluateRhythm((Rhythm) s);
+            evaluateRhythm((Rhythm) s, rest);
         }
     }
 
@@ -66,26 +67,34 @@ public class DslEvaluator{
      * Evaluate to play the music synchronously
      *
      * @param declarations
+     * @param  rest      true if we want to play all note as rest notes
      * @throws EvaluationException
      */
-    private void evaluateSync(List<Declaration> declarations) throws EvaluationException {
+    private void evaluateSync(List<Declaration> declarations, boolean rest) throws EvaluationException {
 
         // add all the music variable that needs to be played synchronously
         for (Declaration d: declarations) {
-            addDeclarationsToMusic(d, DEFAULT_CHANNELS, false);
-            for(int i = 1; i < TOTAL_CHANNELS; i++){
-                addDeclarationsToMusic(d, i, true);
+            if(rest){
+                // replace all the notes to rest and play synchronously
+                for(int i = 0; i < TOTAL_CHANNELS; i++){
+                    addDeclarationsToMusic(d, i, true);
+                }
+            } else {
+                addDeclarationsToMusic(d, DEFAULT_CHANNELS, false);
+                for(int i = 1; i < TOTAL_CHANNELS; i++){
+                    addDeclarationsToMusic(d, i, true);
+                }
             }
         }
     }
 
     /**
      * Evaluate to play the music simultaneously
-     *
      * @param declarations
+     * @param  rest      true if we want to play all note as rest notes
      * @throws EvaluationException
      */
-    private void evaluateSimul(List<Declaration> declarations) throws EvaluationException {
+    private void evaluateSimul(List<Declaration> declarations, boolean rest) throws EvaluationException {
 
         int size = declarations.size();
         // add all the music variable that needs to be played simultaneously
@@ -95,15 +104,18 @@ public class DslEvaluator{
                     "Current support number of layers is " + TOTAL_CHANNELS);
         }
 
-        for(int i = 0; i < TOTAL_CHANNELS; i ++){
-//            log.debug("Channel:  " + i);
-            Declaration d;
-            if(i < size){
-                d = declarations.get(i);
-                addDeclarationsToMusic(d, i, false);
-            } else {
-                d = declarations.get(0);
-                addDeclarationsToMusic(d, i, true);
+        if(rest){
+            // do not have to add the rest layer here
+        } else {
+            for(int i = 0; i < TOTAL_CHANNELS; i++){
+                Declaration d;
+                if(i < size){
+                    d = declarations.get(i);
+                    addDeclarationsToMusic(d, i, false);
+                } else {
+                    d = declarations.get(0);
+                    addDeclarationsToMusic(d, i, true);
+                }
             }
         }
     }
@@ -126,7 +138,7 @@ public class DslEvaluator{
             this.music.addMusicVarList((List<Variable>)(List<?>) subDeclarations, channel, rest);
         }else if (d.getClass().equals(Function.class)) {
             List<Execution> executions = ((Function) d).getExecutions();
-            evaluateFunction(executions);
+            evaluateFunction(executions, rest);
         }
     }
 
@@ -134,9 +146,10 @@ public class DslEvaluator{
      * Evaluate the function statement
      *
      * @param executions
+     * @param  rest      true if we want to play all note as rest notes
      * @throws EvaluationException
      */
-    private void evaluateFunction(List<Execution> executions) throws EvaluationException {
+    private void evaluateFunction(List<Execution> executions, boolean rest) throws EvaluationException {
         // we allow loops in the function
         for (Execution e: executions) {
             if(e.getClass().equals(Loop.class)){
@@ -144,10 +157,11 @@ public class DslEvaluator{
                 List<Execution> newExecutions = ((Loop) e).getExecutions();
                 for (int i=0; i < loopTimes; i++) {
                     // use recursion to evaluate the loop statement
-                    evaluateFunction(newExecutions);
+                    evaluateFunction(newExecutions, rest);
                 }
             } else {
-                evaluateStatement(e);
+                evaluateStatement(e, rest);
+//                log.debug("evaluateStatement is called");
             }
         }
     }
@@ -156,20 +170,20 @@ public class DslEvaluator{
      * Evaluate the rhythm statement
      *
      * @param rhythm
+     * @param  rest      true if we want to play all note as rest notes
      * @throws EvaluationException
      */
-    private void evaluateRhythm(Rhythm rhythm) throws EvaluationException {
+    private void evaluateRhythm(Rhythm rhythm, boolean rest) throws EvaluationException {
 
-        String layer = rhythm.getLayer();
-        int times = rhythm.getTimes();
+        if(!rest){
+            String layer = rhythm.getLayer();
+            int times = rhythm.getTimes();
 
-        if(!isEmptyString(layer) && times > 0){
-            this.music.addRhythmLayer(layer);
-            this.music.setRhythmLength(times);
+            if(!isEmptyString(layer) && times > 0){
+                music.addRhythmLayer(layer);
+                music.setRhythmLength(times);
+            }
         }
-
-        this.music.setRhythmLength(3);
-
     }
 
     private boolean isEmptyString(String str){

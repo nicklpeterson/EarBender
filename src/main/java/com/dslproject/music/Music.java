@@ -1,6 +1,5 @@
 package com.dslproject.music;
 
-import com.dslproject.ast.declarations.Declaration;
 import com.dslproject.ast.declarations.Note;
 import com.dslproject.ast.declarations.Variable;
 import com.dslproject.ui.Main;
@@ -27,86 +26,86 @@ public class Music {
 
     }
 
-    /**
-     * Add a patten to be played later
-     *
-     * @param musicVar     MusicVar object
-     * @param channel      channel to play the MusicVar
-     */
-    public void addPattern(MusicVar musicVar, int channel){
-
-        // I think there is a bug in jfugue on setting the tempo
-        // for multiple patterns on multiple channel.
-        // It's related how they put to the order of the pattern string when we call pattern.setTempo(tempo);.
-        // To resolve this issue, we will avoid using methods like pattern.setTempo. And we build the pattern
-        // string manually.
-        // https://stackoverflow.com/questions/19673293/jfugue-not-changing-tempo-in-the-middle-of-a-song-with-2-voices
-
+//    /**
+//     * Add a patten to be played later
+//     *
+//     * @param musicVar     MusicVar object
+//     * @param channel      channel to play the MusicVar
+//     */
+//    public void addPattern(MusicVar musicVar, int channel){
+//
+//        // I think there is a bug in jfugue on setting the tempo
+//        // for multiple patterns on multiple channel.
+//        // It's related how they put to the order of the pattern string when we call pattern.setTempo(tempo);.
+//        // To resolve this issue, we will avoid using methods like pattern.setTempo. And we build the pattern
+//        // string manually.
+//        // https://stackoverflow.com/questions/19673293/jfugue-not-changing-tempo-in-the-middle-of-a-song-with-2-voices
+//
+////        StringBuilder resultNotes = new StringBuilder();
+////        for(int i=0; i<loopTimes; i++){
+////            resultNotes.append(" ").append(notes);
+////        }
+////
+////        Pattern pattern = new Pattern(resultNotes.toString());
+////        pattern.setVoice(channel);
+////        pattern.setTempo(tempo);
+////        pattern.setInstrument(instrument);
+////
+////        logger.info("pattern:  " + pattern.toString());
+////
+////        patternList.add(pattern);
+//
+////        for(int i=0; i<loopTimes; i++){
+////            patternList.add(pattern);
+////        }
+//
+//        String patternStr = "";
+//
+//        patternStr += "V" + channel;
+//        patternStr += " " + "T" + musicVar.getTempo();
+//        patternStr += " " + "I[" + musicVar.getInstrument() + "]";
+//
 //        StringBuilder resultNotes = new StringBuilder();
-//        for(int i=0; i<loopTimes; i++){
-//            resultNotes.append(" ").append(notes);
+//        for(int i=0; i<musicVar.getLoopTimes(); i++){
+//            resultNotes.append(" ").append(musicVar.getNoteStr());
 //        }
 //
-//        Pattern pattern = new Pattern(resultNotes.toString());
-//        pattern.setVoice(channel);
-//        pattern.setTempo(tempo);
-//        pattern.setInstrument(instrument);
+//        patternStr += " " + resultNotes.toString();
 //
-//        logger.info("pattern:  " + pattern.toString());
-//
+//        Pattern pattern = new Pattern(patternStr);
 //        patternList.add(pattern);
-
-//        for(int i=0; i<loopTimes; i++){
+//
+//    }
+//
+//    /**
+//     * Add a music layer to be played later
+//     *
+//     * @param musicLayer     a musicLayer object
+//     */
+//    public void addMusicLayer(MusicLayer musicLayer){
+//
+//        MusicVar[] musicVars = musicLayer.getMusicVars();
+//        int channel = musicLayer.getChannel();
+//
+//        for (MusicVar musicVar : musicVars) {
+//            String patternStr = "";
+//
+//            patternStr += "V" + channel;
+//            patternStr += " " + "T" + musicVar.getTempo();
+//            patternStr += " " + "I[" + musicVar.getInstrument() + "]";
+//
+//            StringBuilder resultNotes = new StringBuilder();
+//            for (int j = 0; j < musicVar.getLoopTimes(); j++) {
+//                resultNotes.append(" ").append(musicVar.getNoteStr());
+//            }
+//
+//            patternStr += " " + resultNotes.toString();
+//
+//            Pattern pattern = new Pattern(patternStr);
 //            patternList.add(pattern);
 //        }
-
-        String patternStr = "";
-
-        patternStr += "V" + channel;
-        patternStr += " " + "T" + musicVar.getTempo();
-        patternStr += " " + "I[" + musicVar.getInstrument() + "]";
-
-        StringBuilder resultNotes = new StringBuilder();
-        for(int i=0; i<musicVar.getLoopTimes(); i++){
-            resultNotes.append(" ").append(musicVar.getNoteStr());
-        }
-
-        patternStr += " " + resultNotes.toString();
-
-        Pattern pattern = new Pattern(patternStr);
-        patternList.add(pattern);
-
-    }
-
-    /**
-     * Add a music layer to be played later
-     *
-     * @param musicLayer     a musicLayer object
-     */
-    public void addMusicLayer(MusicLayer musicLayer){
-
-        MusicVar[] musicVars = musicLayer.getMusicVars();
-        int channel = musicLayer.getChannel();
-
-        for (MusicVar musicVar : musicVars) {
-            String patternStr = "";
-
-            patternStr += "V" + channel;
-            patternStr += " " + "T" + musicVar.getTempo();
-            patternStr += " " + "I[" + musicVar.getInstrument() + "]";
-
-            StringBuilder resultNotes = new StringBuilder();
-            for (int j = 0; j < musicVar.getLoopTimes(); j++) {
-                resultNotes.append(" ").append(musicVar.getNoteStr());
-            }
-
-            patternStr += " " + resultNotes.toString();
-
-            Pattern pattern = new Pattern(patternStr);
-            patternList.add(pattern);
-        }
-
-    }
+//
+//    }
 
     /**
      * Add a music variable to be played later
