@@ -1,18 +1,9 @@
 package com.dslproject.ui;
 
-
-
-import com.dslproject.ast.Statement;
 import com.dslproject.libs.*;
 import com.dslproject.ast.Program;
-import com.dslproject.music.Music;
-import com.dslproject.music.MusicLayer;
-import com.dslproject.music.MusicVar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
