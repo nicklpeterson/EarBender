@@ -32,10 +32,10 @@ public class Variable extends Declaration {
 
     public String getRestNoteString(){
         StringBuilder noteStr = new StringBuilder();
-        for (int i = 0; i < notes.size(); i++) {
-            noteStr.append(" ").append("R");
+        for (Note note : notes) {
+            noteStr.append(" R").append(note.getLength());
         }
-        return noteStr.toString();
+        return noteStr.toString().trim();
     }
 
     public int getNotesSize(){
