@@ -1,0 +1,5 @@
+SET VAR var1 NOTES(G[q]) INSTRUMENT(piano) TEMPO(100)
+
+START
+PLAY var1
+END
