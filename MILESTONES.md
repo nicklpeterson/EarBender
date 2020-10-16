@@ -95,3 +95,31 @@ PLAY fun1<br/>
 PLAY layer3, layer4, layer2, layer2<br/>
 PLAY SIMUL layer1, layer2, layer3, layer4<br/>
 STOP<br/>
+
+## MILESTONE 4
+Status of the implementation:<br/>
+EBNF and UML Diagram: Ongoing<br/>
+Implement Java Music Api: Ongoing<br/>
+Tokenizer: Finished<br/>
+Parser: Ongoing<br/>
+Evaluator: Will start when parser is ready<br/>
+Validator: Will start when parser is ready<br/>
+
+
+<br/>Planned timeline for the remaining days:<br/>
+**October 10th**: Finish up the implementation for the ast and parser.<br/>
+**October 12th**: Finish up the implementation for the evaluator and integration for the music library.<br/>
+**October 13th**: Meeting to review the development progress.<br/>
+**October 14th**: Finish up the implementation for the validator.<br/>
+**October 13th**: Meeting to review the development progress. Start integration testings.<br/>
+**October 16th**: Start to prepare the required documentations and demo video for the final submission.<br/>
+**October 18th**: Finish up the required documentations and demo video. Wrap up the testings.<br/>
+**October 19th**: Day of final submission.<br/>
+
+<br/>Plans for final user study:
+Provide users the example code snippets we prepared (6 examples covering all functionalities).<br/>
+Answer and write down any questions users asked.<br/>
+Give users the description of the task we want them to finish.<br/>
+After they finish, compare their work with the sample solution.<br/>
+Answer potential follow-up questions and ask for feedback on our language.<br/>
+

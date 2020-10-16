@@ -2,6 +2,14 @@
 **Description**: The basis of this language is VAR. <br/>
 A var can contain any number of musicVar and must contain an instrument and a tempo. <br/>
 You can choose to group one or more vars in a single layer by using the LIST command.
+List of instrument: 
+- piano
+- bass
+- guitar
+- trumpet
+- violin
+- flute
+- whistle
 
 SET VAR var1 NOTES(G[q]) INSTRUMENT(trumpet) TEMPO(100)
 
@@ -29,8 +37,9 @@ SET VAR var16 NOTES(B, A[w], F, D, A) INSTRUMENT(trumpet) TEMPO(100)
 SET LIST layer11(var11, var14)
 SET LIST layer12(var12, var15)
 SET LIST layer13(var13, var16)
-// all layers should have two vars if you want to play them simultaneously
-// var11, var12, var13 should have same number of notes and tempo, same for var14, var15, var16 
+// All layers should have same number of var if you want to play them simultaneously
+// Also, corresponding vars need to have same number of note and tempo
+// In this case, var11, var12, var13 should have same number of note and tempo, same for var14, var15, var16 
 
 
 START
