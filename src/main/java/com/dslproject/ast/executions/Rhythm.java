@@ -13,8 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class Rhythm extends Execution {
-    private String layer;
-    private int times;
+    private List<String> layers;
 
     @Override
     public int getBeats() {

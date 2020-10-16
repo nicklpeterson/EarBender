@@ -23,7 +23,9 @@ public class DslEvaluator{
 
     final private int TOTAL_CHANNELS = 3;
     final private int DEFAULT_CHANNELS = 0;
+    final private int BEATS_PER_RHYTHM_LAYER = 8;
     final private Program ast;
+    private int totalBeats = 0;
 
     public static DslEvaluator getEvaluator(Program ast) {
         return new DslEvaluator(ast);
@@ -37,8 +39,10 @@ public class DslEvaluator{
     public void evaluateProgram() throws EvaluationException {
 
         // go through the statement and evaluate each statement
-        List<Statement> statements = ast.getStatements();
-        for (Statement s: statements) {
+        for (Statement statement : ast.getStatements()) {
+            this.totalBeats += statement.getBeats();
+        }
+        for (Statement s: ast.getStatements()) {
             evaluateStatement(s, false);
         }
 
@@ -174,15 +178,11 @@ public class DslEvaluator{
      * @throws EvaluationException
      */
     private void evaluateRhythm(Rhythm rhythm, boolean rest) throws EvaluationException {
-
         if(!rest){
-            String layer = rhythm.getLayer();
-            int times = rhythm.getTimes();
-
-            if(!isEmptyString(layer) && times > 0){
+            for (String layer : rhythm.getLayers()) {
                 music.addRhythmLayer(layer);
-                music.setRhythmLength(times);
             }
+            music.setRhythmLength(this.totalBeats / this.BEATS_PER_RHYTHM_LAYER);
         }
     }
 

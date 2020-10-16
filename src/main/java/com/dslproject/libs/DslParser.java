@@ -158,12 +158,13 @@ public class DslParser {
 
     private Rhythm parseRhythm() {
         String[] tokens = tokenizer.getNext().split("( )|\\(|\\)");
-        int times = Integer.parseInt(tokens[5]);
-
-        return Rhythm.builder()
-                .layer(tokens[2])
-                .times(times)
-                .build();
+        List<String> layers = new ArrayList<>();
+        for (int i = 0; i < tokens.length - 1; i++) {
+            if (tokens[i].matches("LAYER")) {
+                layers.add(tokens[i+1]);
+            }
+        }
+        return new Rhythm(layers);
     }
 
     private List<Note> newNoteList(String[] notes) {

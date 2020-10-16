@@ -17,11 +17,7 @@ public class PlaySimul extends Execution {
 
     @Override
     public int getBeats() {
-        int beats = 0;
-        for (Declaration declaration : declarations) {
-            beats += declaration.getBeats();
-        }
-        return beats;
+        return declarations.get(0).getBeats();
     }
 
     @Override
