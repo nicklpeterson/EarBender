@@ -116,7 +116,7 @@ Validator: Will start when parser is ready<br/>
 **October 18th**: Finish up the required documentations and demo video. Wrap up the testings.<br/>
 **October 19th**: Day of final submission.<br/>
 
-<br/>Plans for final user study:
+<br/>Plans for final user study:<br/>
 Provide users the example code snippets we prepared (6 examples covering all functionalities).<br/>
 Answer and write down any questions users asked.<br/>
 Give users the description of the task we want them to finish.<br/>
