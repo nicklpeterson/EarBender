@@ -1,0 +1,33 @@
+FINAL USER STUDY
+
+User1: Quinn Liu
+Age: 22
+Gender: female
+Major in Psychology, has experience with R.
+
+She was quite confused by musical terms in the beginning, asked many questions about the definition of note, tempo, and duration.
+Since she has programming experience, she understood the set command and loop command easily.
+Rhythm command is the most confusing one, she didn't know if it should appear in the loop or somewhere else.
+Without explanation, she understood the restriction we added toward PLAY SIMUL.
+Her solution is exactly the same as the sample solution, indicating our language is pretty understandable for people with programming experience.
+
+------------------------------------------
+
+User2: Alice Qi
+Age: 22
+Gender: female
+Has musical background, zero experience with programming.
+
+She wasn't confused by musical terms, but she didn't quite understand how to define variables and asked several questions.
+The purpose of setting layers while you can directly play those vars isn't that apparent for people without programming experience, but she eventually understood it after I explained the concept of reusing variables.
+Most of her solution is correct, however, she got PLAY SIMUL wrong.
+After asking follow-up questions, she was able to correct her solution.
+It showed that the restriction of PLAY SIMUL isn't that obvious and can be quite confusing without explanation.
+
+------------------------------------------
+
+Summary:
+- Without examples, it's hard for users without musical background to generate the correct code without explanation.
+- User without programming experience has to ask follow-up questions to actually understand the syntax.
+- Rhythm is the most confusing command.
+- The restriction of PLAY SIMUL can be easily missed.
