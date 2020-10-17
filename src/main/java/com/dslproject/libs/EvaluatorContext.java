@@ -10,5 +10,5 @@ import lombok.Setter;
 public class EvaluatorContext {
     private int channel;
     private boolean rest;
-    private boolean simulParent;
+    private boolean simulChild;
 }

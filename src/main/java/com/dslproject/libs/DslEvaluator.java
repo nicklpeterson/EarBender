@@ -73,7 +73,7 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
     public Void visit(EvaluatorContext context, Loop loop) {
         for (int i = 0; i < loop.getTimes() && !context.isRest(); i++) {
             for (Execution execution : loop.getExecutions()) {
-                execution.accept(new EvaluatorContext(DEFAULT_CHANNEL, false, context.isSimulParent()), this);
+                execution.accept(new EvaluatorContext(DEFAULT_CHANNEL, false, context.isSimulChild()), this);
             }
         }
         return null;
@@ -95,9 +95,9 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
     @Override
     public Void visit(EvaluatorContext context, PlaySync playSync) {
         for (Declaration declaration : playSync.getDeclarations()) {
-            declaration.accept(new EvaluatorContext(context.getChannel(), false, context.isSimulParent()), this);
-            for (int i = DEFAULT_CHANNEL + 1; i < TOTAL_CHANNELS && !context.isSimulParent(); i++) {
-                declaration.accept(new EvaluatorContext(i, true, context.isSimulParent()), this);
+            declaration.accept(new EvaluatorContext(context.getChannel(), false, context.isSimulChild()), this);
+            for (int i = DEFAULT_CHANNEL + 1; i < TOTAL_CHANNELS && !context.isSimulChild(); i++) {
+                declaration.accept(new EvaluatorContext(i, true, context.isSimulChild()), this);
             }
         }
         return null;
