@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class DSLEvaluator implements DslVisitor<Void, EvaluatorContext>{
+public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
 
-    final private Logger log = LoggerFactory.getLogger(DSLEvaluator.class);
+    final private Logger log = LoggerFactory.getLogger(DslEvaluator.class);
     final private Music music = new Music();
 
     final private int TOTAL_CHANNELS = 8;
@@ -27,8 +27,8 @@ public class DSLEvaluator implements DslVisitor<Void, EvaluatorContext>{
     final private Program ast;
     private int totalBeats = 0;
 
-    public static DSLEvaluator getEvaluator(Program ast) {
-        return new DSLEvaluator(ast);
+    public static DslEvaluator getEvaluator(Program ast) {
+        return new DslEvaluator(ast);
     }
 
     /**

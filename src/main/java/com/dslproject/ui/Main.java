@@ -17,7 +17,7 @@ public class Main {
             log.info("Validation: " + DslValidator.getValidator(ast).validateProgram());
             log.info("Succesfully validated AST");
             // DslEvaluator.getEvaluator(ast).evaluateProgram();
-            DSLEvaluator.getEvaluator(ast).evaluateProgram();
+            DslEvaluator.getEvaluator(ast).evaluateProgram();
             log.info("Evaluation done");
 
         } catch (Exception e) {
