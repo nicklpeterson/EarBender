@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Setter
 @Getter
+@AllArgsConstructor
 public class EvaluatorContext {
-    int channel;
-    boolean rest;
+    private int channel;
+    private boolean rest;
+    private boolean simulParent;
 }

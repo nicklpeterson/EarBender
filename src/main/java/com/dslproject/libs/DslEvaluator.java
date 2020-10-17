@@ -21,7 +21,7 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
     final private Logger log = LoggerFactory.getLogger(DslEvaluator.class);
     final private Music music = new Music();
 
-    final private int TOTAL_CHANNELS = 8;
+    final private int TOTAL_CHANNELS = 3;
     final private int DEFAULT_CHANNEL = 0;
     final private int BEATS_PER_RHYTHM_LAYER = 16;
     final private Program ast;
@@ -41,7 +41,7 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
         for (Statement statement : ast.getStatements()) {
             this.totalBeats += statement.getBeats();
         }
-        ast.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
+        ast.accept(new EvaluatorContext(DEFAULT_CHANNEL, false, false), this);
         this.music.playMusic();
     }
 
@@ -57,7 +57,7 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
     public Void visit(EvaluatorContext context, Function function) {
         if (!context.isRest()) {
             for (Execution execution : function.getExecutions()) {
-                execution.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
+                execution.accept(context, this);
             }
         }
         return null;
@@ -73,7 +73,7 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
     public Void visit(EvaluatorContext context, Loop loop) {
         for (int i = 0; i < loop.getTimes() && !context.isRest(); i++) {
             for (Execution execution : loop.getExecutions()) {
-                execution.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
+                execution.accept(new EvaluatorContext(DEFAULT_CHANNEL, false, context.isSimulParent()), this);
             }
         }
         return null;
@@ -84,9 +84,9 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
         List<Declaration> declarationList = playSimul.getDeclarations();
         for (int i = DEFAULT_CHANNEL; i < TOTAL_CHANNELS; i++) {
             if (i < declarationList.size()) {
-                declarationList.get(i).accept(new EvaluatorContext(i, false), this);
+                declarationList.get(i).accept(new EvaluatorContext(i, false, true), this);
             } else {
-                declarationList.get(0).accept(new EvaluatorContext(i, true), this);
+                declarationList.get(0).accept(new EvaluatorContext(i, true, true), this);
             }
         }
         return null;
@@ -95,9 +95,9 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
     @Override
     public Void visit(EvaluatorContext context, PlaySync playSync) {
         for (Declaration declaration : playSync.getDeclarations()) {
-            declaration.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
-            for (int i = DEFAULT_CHANNEL + 1; i < TOTAL_CHANNELS; i++) {
-                declaration.accept(new EvaluatorContext(i, true), this);
+            declaration.accept(new EvaluatorContext(context.getChannel(), false, context.isSimulParent()), this);
+            for (int i = DEFAULT_CHANNEL + 1; i < TOTAL_CHANNELS && !context.isSimulParent(); i++) {
+                declaration.accept(new EvaluatorContext(i, true, context.isSimulParent()), this);
             }
         }
         return null;
