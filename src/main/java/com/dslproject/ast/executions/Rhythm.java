@@ -26,7 +26,7 @@ public class Rhythm extends Execution {
     }
 
     @Override
-    public boolean validateVariable() {
+    public boolean validateStructure() {
         return true;
     }
 

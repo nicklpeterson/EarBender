@@ -58,11 +58,11 @@ public class Variable extends Declaration {
     }
 
     @Override
-    public boolean validateVariable() {
+    public boolean validateStructure() {
         String[] array = {"piano","violin","guitar","bass","trumpet","flute","whistle"};
 
-        if (this.getTempo()>0) {
-            throw new ValidatorException("tempo not in the range, it should be between 40-220");
+        if (this.getTempo()<=0) {
+            throw new ValidatorException("tempo should be greater than 0");
         } else if (!Arrays.asList(array).contains(this.getInstrument())){
             throw new ValidatorException("unknown instruments");
         }

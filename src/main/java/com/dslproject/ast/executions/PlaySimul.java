@@ -30,9 +30,9 @@ public class PlaySimul extends Execution {
     }
 
     @Override
-    public boolean validateVariable() {
+    public boolean validateStructure() {
         for (Declaration declaration : declarations) {
-            declaration.validateVariable();
+            declaration.validateStructure();
         }
         return true;
     }

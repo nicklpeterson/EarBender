@@ -1,6 +1,7 @@
 package com.dslproject.ast.executions;
 
 import com.dslproject.ast.declarations.Declaration;
+import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,9 +37,17 @@ public class Loop extends Execution {
     }
 
     @Override
-    public boolean validateVariable() {
+    public boolean validateStructure() {
+
         for (Execution execution : executions) {
-            execution.validateVariable();
+            if(!execution.getClass().equals(PlaySimul.class)&&!execution.getClass().equals(PlaySync.class)) {
+                throw new ValidatorException("wrong loop structure");
+            };
+
+            execution.validateStructure();
+        }
+        if (executions.size() == 0) {
+            throw new ValidatorException("the loop cannot be empty");
         }
         return true;
     }

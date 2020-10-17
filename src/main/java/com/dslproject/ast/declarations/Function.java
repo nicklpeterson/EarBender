@@ -1,5 +1,9 @@
 package com.dslproject.ast.declarations;
 
+import com.dslproject.ast.executions.Loop;
+import com.dslproject.ast.executions.PlaySimul;
+import com.dslproject.ast.executions.PlaySync;
+import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import com.dslproject.ast.executions.Execution;
 import lombok.Getter;
@@ -37,9 +41,15 @@ public class Function extends Declaration {
     }
 
     @Override
-    public boolean validateVariable() {
+    public boolean validateStructure() {
+        if (executions.size() == 0) {
+            throw new ValidatorException("the function cannot be empty");
+        }
         for (Execution execution : executions) {
-            execution.validateVariable();
+            if(!execution.getClass().equals(Loop.class)&&!execution.getClass().equals(PlaySync.class)) {
+                throw new ValidatorException("wrong function structure");
+            };
+            execution.validateStructure();
         }
         return true;
     }
