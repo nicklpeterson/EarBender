@@ -26,6 +26,11 @@ public class Rhythm extends Execution {
     }
 
     @Override
+    public boolean validateStructure() {
+        return true;
+    }
+
+    @Override
     public <T, C> T accept(C context, DslVisitor<T, C> v) {
         return v.visit(context, this);
     }

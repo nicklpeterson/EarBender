@@ -1,10 +1,12 @@
 package com.dslproject.ast.declarations;
 
+import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Setter
@@ -53,6 +55,18 @@ public class Variable extends Declaration {
         List<Integer> tempoList = new ArrayList<>();
         tempoList.add(this.getTempo());
         return tempoList;
+    }
+
+    @Override
+    public boolean validateStructure() {
+        String[] array = {"piano","violin","guitar","bass","trumpet","flute","whistle"};
+
+        if (this.getTempo()<=0) {
+            throw new ValidatorException("tempo should be greater than 0");
+        } else if (!Arrays.asList(array).contains(this.getInstrument())){
+            throw new ValidatorException("unknown instruments");
+        }
+        return true;
     }
 
     public int getNotesSize(){

@@ -1,4 +1,4 @@
-SET VAR var1 NOTES(G[qh], E[qq], A[qqq]) INSTRUMENT(piano) TEMPO(100)
+SET VAR var1 NOTES(G[qh], E[qq], A[qqq]) INSTRUMENT(piano) TEMPO(1000)
 SET VAR var2 NOTES(F[q]) INSTRUMENT(piano) TEMPO(100)
 SET VAR var3 NOTES(E[q]) INSTRUMENT(trumpet) TEMPO(100)
 

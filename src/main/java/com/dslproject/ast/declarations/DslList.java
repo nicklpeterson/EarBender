@@ -1,5 +1,6 @@
 package com.dslproject.ast.declarations;
 
+import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,17 @@ public class DslList extends Declaration {
             tempoList.addAll(declaration.getTempoList());
         }
         return tempoList;
+    }
+
+    @Override
+    public boolean validateStructure() {
+        for (Declaration declaration : declarations) {
+            if (!declaration.getClass().equals(Variable.class)&&!declaration.getClass().equals(Function.class)&&!declaration.getClass().equals(DslList.class)) {
+                throw new ValidatorException("wrong dslList structure");
+            };
+            declaration.validateStructure();
+        }
+        return true;
     }
 
     @Override

@@ -38,6 +38,6 @@ SET LIST line3(fun1, fun2)
 SET LIST line4(line3, line1, line2)
 
 START
-PLAY SIMUL fun3, fun4
+PLAY fun3, fun4
 PLAY line3, line4
 STOP

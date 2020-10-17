@@ -1,6 +1,8 @@
 package com.dslproject.ast.executions;
 
 import com.dslproject.ast.declarations.Declaration;
+import com.dslproject.ast.declarations.DslList;
+import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +33,17 @@ public class PlaySync extends Execution {
             tempoList.addAll(declaration.getTempoList());
         }
         return tempoList;
+    }
+
+    @Override
+    public boolean validateStructure() {
+        for (Declaration declaration : declarations) {
+            if(!declaration.getClass().equals(DslList.class)) {
+                throw new ValidatorException("wrong playSync structure");
+            };
+            declaration.validateStructure();
+        }
+        return true;
     }
 
     @Override

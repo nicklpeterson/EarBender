@@ -30,6 +30,14 @@ public class PlaySimul extends Execution {
     }
 
     @Override
+    public boolean validateStructure() {
+        for (Declaration declaration : declarations) {
+            declaration.validateStructure();
+        }
+        return true;
+    }
+
+    @Override
     public <T, C> T accept(C context, DslVisitor<T, C> v) {
         return v.visit(context, this);
     }
