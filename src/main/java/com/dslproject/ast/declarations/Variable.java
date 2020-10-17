@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Setter
@@ -58,11 +59,13 @@ public class Variable extends Declaration {
 
     @Override
     public boolean validateVariable() {
-        System.out.println(this.getTempo());
+        String[] array = {"piano","violin","guitar","bass","trumpet","flute","whistle"};
+
         if (this.getTempo()<40||this.getTempo()>220) {
             throw new ValidatorException("tempo not in the range, it should be between 40-220");
+        } else if (!Arrays.asList(array).contains(this.getInstrument())){
+            throw new ValidatorException("unknown instruments");
         }
-        
         return true;
     }
 
