@@ -84,6 +84,11 @@ public class DslValidator implements DslVisitor<Boolean, ValidatorContext> {
 
     @Override
     public Boolean visit(ValidatorContext context, PlaySync playSync) {
+        for (Declaration declaration : playSync.getDeclarations()) {
+            validateSync(playSync);
+            declaration.accept(new ValidatorContext(false), this);
+        }
+
         return true;
     }
 
