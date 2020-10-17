@@ -16,6 +16,7 @@ public class Main {
             log.info("Successfully Parsed Tokens");
             log.info("Validation: " + DslValidator.getValidator(ast).validateProgram());
             log.info("Succesfully validated AST");
+            // DslEvaluator.getEvaluator(ast).evaluateProgram();
             DslEvaluator.getEvaluator(ast).evaluateProgram();
             log.info("Evaluation done");
 

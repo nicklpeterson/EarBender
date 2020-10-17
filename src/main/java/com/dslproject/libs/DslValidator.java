@@ -19,7 +19,7 @@ the parser and tokenizer should catch any other errors, but
 we may want to add more validation to be safe.
  */
 @RequiredArgsConstructor
-public class DslValidator implements DslVisitor<Boolean, Void> {
+public class DslValidator implements DslVisitor<Boolean, ValidatorContext> {
     private final Program ast;
 
     public  static DslValidator getValidator(Program ast) {
@@ -27,7 +27,7 @@ public class DslValidator implements DslVisitor<Boolean, Void> {
     }
 
     public boolean validateProgram(){
-        return ast.accept(null, this);
+        return ast.accept(new ValidatorContext(false), this);
     }
 
     public boolean validateSimul(PlaySimul playSimul) {
@@ -46,42 +46,46 @@ public class DslValidator implements DslVisitor<Boolean, Void> {
     }
 
     @Override
-    public Boolean visit(Void context, DslList dslList) {
+    public Boolean visit(ValidatorContext context, DslList dslList) {
         return true;
     }
 
     @Override
-    public Boolean visit(Void context, Function function) {
+    public Boolean visit(ValidatorContext context, Function function) {
         return true;
     }
 
     @Override
-    public Boolean visit(Void context, Variable variable) {
+    public Boolean visit(ValidatorContext context, Variable variable) {
         return true;
     }
 
     @Override
-    public Boolean visit(Void context, Loop loop) {
+    public Boolean visit(ValidatorContext context, Loop loop) {
         return true;
     }
 
     @Override
-    public Boolean visit(Void context, PlaySimul playSimul) {
-        return validateSimul(playSimul);
-    }
-
-    @Override
-    public Boolean visit(Void context, PlaySync playSync) {
+    public Boolean visit(ValidatorContext context, PlaySimul playSimul) {
+        validateSimul(playSimul);
+        for (Declaration declaration : playSimul.getDeclarations()) {
+            declaration.accept(new ValidatorContext(true), this);
+        }
         return true;
     }
 
     @Override
-    public Boolean visit(Void context, Program program) {
+    public Boolean visit(ValidatorContext context, PlaySync playSync) {
+        return true;
+    }
+
+    @Override
+    public Boolean visit(ValidatorContext context, Program program) {
         return program.getStatements().stream().allMatch(x -> x.accept(context, this));
     }
 
     @Override
-    public Boolean visit(Void context, Rhythm rhythm) {
+    public Boolean visit(ValidatorContext context, Rhythm rhythm) {
         return true;
     }
 }
