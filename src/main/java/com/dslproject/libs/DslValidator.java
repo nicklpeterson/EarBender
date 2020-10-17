@@ -34,6 +34,7 @@ public class DslValidator implements DslVisitor<Boolean, ValidatorContext> {
         HashSet<Integer> tempoList = new HashSet<>(playSimul.getTempoList());
         HashSet<Integer> beatList = new HashSet<>();
         for (Declaration declaration : playSimul.getDeclarations()) {
+            declaration.validateVariable();
             beatList.add(declaration.getBeats());
         }
         if (tempoList.size() > 1) {
@@ -44,6 +45,13 @@ public class DslValidator implements DslVisitor<Boolean, ValidatorContext> {
         }
         return true;
     }
+    public boolean validateSync(PlaySync playSync) {
+        for (Declaration declaration : playSync.getDeclarations()) {
+            declaration.validateVariable();
+        }
+        return true;
+    }
+
 
     @Override
     public Boolean visit(ValidatorContext context, DslList dslList) {

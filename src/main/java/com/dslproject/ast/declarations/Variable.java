@@ -1,5 +1,6 @@
 package com.dslproject.ast.declarations;
 
+import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +54,16 @@ public class Variable extends Declaration {
         List<Integer> tempoList = new ArrayList<>();
         tempoList.add(this.getTempo());
         return tempoList;
+    }
+
+    @Override
+    public boolean validateVariable() {
+        System.out.println(this.getTempo());
+        if (this.getTempo()<40||this.getTempo()>220) {
+            throw new ValidatorException("tempo not in the range, it should be between 40-220");
+        }
+        
+        return true;
     }
 
     public int getNotesSize(){

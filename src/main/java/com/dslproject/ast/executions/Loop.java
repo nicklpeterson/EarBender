@@ -36,6 +36,14 @@ public class Loop extends Execution {
     }
 
     @Override
+    public boolean validateVariable() {
+        for (Execution execution : executions) {
+            execution.validateVariable();
+        }
+        return true;
+    }
+
+    @Override
     public <T, C> T accept(C context, DslVisitor<T, C> v) {
         return v.visit(context, this);
     }

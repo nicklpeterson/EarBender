@@ -35,6 +35,14 @@ public class DslList extends Declaration {
     }
 
     @Override
+    public boolean validateVariable() {
+        for (Declaration declaration : declarations) {
+            declaration.validateVariable();
+        }
+        return true;
+    }
+
+    @Override
     public <T, C> T accept(C context, DslVisitor<T, C> v) {
         return v.visit(context, this);
     }
