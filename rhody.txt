@@ -1,20 +1,34 @@
-SET VAR measure1 NOTES(E[h], E[q], D[q]) INSTRUMENT(violin) TEMPO(150)
-SET VAR measure2 NOTES(C[h], C[h]) INSTRUMENT(violin) TEMPO(150)
-SET VAR measure3 NOTES(D[h], D[q], F[q]) INSTRUMENT(violin) TEMPO(150)
-SET VAR measure4 NOTES(E[q], D[q], C[h]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure1 NOTES(E[h], E[q], D[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure2 NOTES(C[h], C[h]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure3 NOTES(D[h], D[q], F[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure4 NOTES(E[q], D[q], C[h]) INSTRUMENT(guitar) TEMPO(150)
 
-SET VAR measure5 NOTES(G[h], G[q], F[q]) INSTRUMENT(violin) TEMPO(150)
-SET VAR measure6 NOTES(E[h], E[q], E[q]) INSTRUMENT(violin) TEMPO(150)
-SET VAR measure7 NOTES(D[q], F[q], E[q], D[q]) INSTRUMENT(violin) TEMPO(150)
-SET VAR measure8 NOTES(C[w]) INSTRUMENT(violin) TEMPO(150)
+SET VAR measure5 NOTES(G[h], G[q], F[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure6 NOTES(E[h], E[q], E[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure7 NOTES(D[q], F[q], E[q], D[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure8 NOTES(C[w]) INSTRUMENT(guitar) TEMPO(150)
 
 SET LIST line1(measure1, measure2, measure3, measure4)
 SET LIST line2(measure5, measure6, measure7, measure8)
 
-RHYTHM LAYER(^.X.^.X.^.X.^.X.) LAYER(O.OO...O.OO....O) LAYER(....o.......o...)
+RHYTHM LAYER(^^X.^^X.^^X.^^X.) LAYER(O...O...O...O..*)
+
+FUNCTION fun2 {
+    LOOP 2 TIMES
+        PLAY SIMUL line1, line2
+    END LOOP
+}
+
+FUNCTION fun1 {
+    PLAY line1, line2
+    PLAY line1
+    PLAY line2
+}
+
+SET LIST line3(fun1, fun2)
+
+SET LIST line4(line3, line1, line2)
 
 START
-PLAY line1
-PLAY line2
-PLAY SIMUL line1, line2
+PLAY line3, line4
 STOP

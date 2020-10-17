@@ -23,7 +23,7 @@ public class Loop extends Execution {
         for (Execution execution : executions) {
             beats += execution.getBeats();
         }
-        return beats;
+        return times * beats;
     }
 
     @Override

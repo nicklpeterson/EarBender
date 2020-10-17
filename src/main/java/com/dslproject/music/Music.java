@@ -3,6 +3,7 @@ package com.dslproject.music;
 import com.dslproject.ast.declarations.Note;
 import com.dslproject.ast.declarations.Variable;
 import com.dslproject.ui.Main;
+import org.apache.maven.shared.utils.StringUtils;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
 import org.jfugue.rhythm.Rhythm;
@@ -168,10 +169,12 @@ public class Music {
     public void playMusic(){
 
 //        logger.info("Size of list:  " + patternList.size());
-        logger.info("Music content:  " + patternList.toString());
+        patternList.add(rhythm.getPattern());
+        Pattern[] patternArray = patternList.toArray(new Pattern[0]);
+        logger.info("Music content:  " + StringUtils.join(patternArray, "\n"));
 
         patternList.add(rhythm.getPattern());
-        player.play(patternList.toArray(new Pattern[0]));
+        player.play(patternList.toArray(patternArray));
     }
 
 

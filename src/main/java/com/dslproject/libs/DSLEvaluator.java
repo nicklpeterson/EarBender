@@ -1,0 +1,122 @@
+package com.dslproject.libs;
+
+import ch.qos.logback.core.boolex.EvaluationException;
+import com.dslproject.ast.Program;
+import com.dslproject.ast.Statement;
+import com.dslproject.ast.declarations.Declaration;
+import com.dslproject.ast.declarations.DslList;
+import com.dslproject.ast.declarations.Function;
+import com.dslproject.ast.declarations.Variable;
+import com.dslproject.ast.executions.*;
+import com.dslproject.music.Music;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+public class DSLEvaluator implements DslVisitor<Void, EvaluatorContext>{
+
+    final private Logger log = LoggerFactory.getLogger(DSLEvaluator.class);
+    final private Music music = new Music();
+
+    final private int TOTAL_CHANNELS = 8;
+    final private int DEFAULT_CHANNEL = 0;
+    final private int BEATS_PER_RHYTHM_LAYER = 16;
+    final private Program ast;
+    private int totalBeats = 0;
+
+    public static DSLEvaluator getEvaluator(Program ast) {
+        return new DSLEvaluator(ast);
+    }
+
+    /**
+     * Evaluate the ast program
+     *
+     * @throws EvaluationException
+     */
+    public void evaluateProgram() {
+        // go through the statement and evaluate each statement
+        for (Statement statement : ast.getStatements()) {
+            this.totalBeats += statement.getBeats();
+        }
+        ast.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
+        this.music.playMusic();
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, DslList dslList) {
+        for (Declaration declaration : dslList.getDeclarations()) {
+            declaration.accept(context, this);
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, Function function) {
+        if (!context.isRest()) {
+            for (Execution execution : function.getExecutions()) {
+                execution.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, Variable variable) {
+        this.music.addMusicVar(variable, context.getChannel(), context.isRest());
+        return null;
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, Loop loop) {
+        for (int i = 0; i < loop.getTimes() && !context.isRest(); i++) {
+            for (Execution execution : loop.getExecutions()) {
+                execution.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, PlaySimul playSimul) {
+        List<Declaration> declarationList = playSimul.getDeclarations();
+        for (int i = DEFAULT_CHANNEL; i < TOTAL_CHANNELS; i++) {
+            if (i < declarationList.size()) {
+                declarationList.get(i).accept(new EvaluatorContext(i, false), this);
+            } else {
+                declarationList.get(0).accept(new EvaluatorContext(i, true), this);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, PlaySync playSync) {
+        for (Declaration declaration : playSync.getDeclarations()) {
+            declaration.accept(new EvaluatorContext(DEFAULT_CHANNEL, false), this);
+            for (int i = DEFAULT_CHANNEL + 1; i < TOTAL_CHANNELS; i++) {
+                declaration.accept(new EvaluatorContext(i, true), this);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, Program program) {
+        for (Statement statement : program.getStatements()) {
+            statement.accept(context, this);
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(EvaluatorContext context, Rhythm rhythm) {
+        for (String layer : rhythm.getLayers()) {
+            music.addRhythmLayer(layer);
+        }
+        music.setRhythmLength(this.totalBeats / this.BEATS_PER_RHYTHM_LAYER);
+        return null;
+    }
+}
