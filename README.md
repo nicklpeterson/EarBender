@@ -1,6 +1,8 @@
 # cpsc410_project1_team23
 Project 1 Team Repository
 
+Link to demo: https://www.dropbox.com/s/uih7mxh4phjtt8l/Demo2.mp4?dl=0
+
 Our DSL accepts a text file and plays music from it.
 
 The text file is first tokenized using the Tokenizer, then it is sent to the Parser, our Validator ensures that all the syntax and input commands are correct and then our Evaluator converts the parsed data into music.
