@@ -38,9 +38,7 @@ public class PlaySync extends Execution {
     @Override
     public boolean validateStructure() {
         for (Declaration declaration : declarations) {
-            if(!declaration.getClass().equals(DslList.class)) {
-                throw new ValidatorException("wrong playSync structure");
-            };
+
             declaration.validateStructure();
         }
         return true;

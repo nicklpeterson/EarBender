@@ -40,10 +40,6 @@ public class Loop extends Execution {
     public boolean validateStructure() {
 
         for (Execution execution : executions) {
-            if(!execution.getClass().equals(PlaySimul.class)&&!execution.getClass().equals(PlaySync.class)) {
-                throw new ValidatorException("wrong loop structure");
-            };
-
             execution.validateStructure();
         }
         if (executions.size() == 0) {
