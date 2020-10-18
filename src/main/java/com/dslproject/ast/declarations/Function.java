@@ -1,11 +1,8 @@
 package com.dslproject.ast.declarations;
 
-import com.dslproject.ast.executions.Loop;
-import com.dslproject.ast.executions.PlaySimul;
-import com.dslproject.ast.executions.PlaySync;
+import com.dslproject.ast.executions.*;
 import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
-import com.dslproject.ast.executions.Execution;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,8 +34,8 @@ public class Function extends Declaration {
             throw new ValidatorException("the function cannot be empty");
         }
         for (Execution execution : executions) {
-            if(!execution.getClass().equals(Loop.class)&&!execution.getClass().equals(PlaySync.class)) {
-                throw new ValidatorException("wrong function structure");
+            if(execution.getClass().equals(Rhythm.class)) {
+                throw new ValidatorException("rhythm cannot be within function");
             };
             execution.validateStructure();
         }

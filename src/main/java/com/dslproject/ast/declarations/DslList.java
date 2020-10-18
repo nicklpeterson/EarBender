@@ -28,9 +28,7 @@ public class DslList extends Declaration {
     @Override
     public boolean validateStructure() {
         for (Declaration declaration : declarations) {
-            if (!declaration.getClass().equals(Variable.class)&&!declaration.getClass().equals(Function.class)&&!declaration.getClass().equals(DslList.class)) {
-                throw new ValidatorException("wrong dslList structure");
-            };
+
             declaration.validateStructure();
         }
         return true;
