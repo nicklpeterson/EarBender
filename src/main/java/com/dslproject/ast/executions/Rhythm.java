@@ -16,13 +16,8 @@ public class Rhythm extends Execution {
     private List<String> layers;
 
     @Override
-    public int getBeats() {
+    public Integer getBeats() {
         return 0;
-    }
-
-    @Override
-    public List<Integer> getTempoList() {
-        return null;
     }
 
     @Override

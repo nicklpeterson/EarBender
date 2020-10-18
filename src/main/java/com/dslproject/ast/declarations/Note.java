@@ -13,60 +13,49 @@ public class Note {
     // i.e. qqqh or hhw
     private String length;
 
-    private MusicNote note;
+    private String note;
 
     public Note(String noteString) {
         String[] tokens = noteString.split("\\[|\\]");
-        this.note = stringToNote(tokens[0]);
+        this.note = tokens[0];
         this.length = tokens.length > 1 ? tokens[1].trim() : "q";
     }
 
     public String toString() {
-        return this.note.name() + this.length;
+        return this.note + this.length;
     }
 
-    public int getBeats() {
-        int beats = 0;
+    public Integer getBeats() {
+        Integer beats = 0;
         char[] tokens = length.toCharArray();
         for (char token : tokens) {
-            if (token == 'q') {
-                beats += 1;
-            }
-            else if (token == 'h') {
-                beats += 2;
-            }
-            else if (token == 'w') {
-                beats += 4;
+            switch(token) {
+                case 'o':
+                    beats += 1;
+                    break;
+                case 'x':
+                    beats += 2;
+                    break;
+                case 't':
+                    beats += 4;
+                    break;
+                case 's':
+                    beats += 8;
+                    break;
+                case 'i':
+                    beats += 16;
+                    break;
+                case 'q':
+                    beats += 32;
+                    break;
+                case 'h':
+                    beats += 64;
+                    break;
+                case 'w':
+                    beats += 128;
+                    break;
             }
         }
         return beats;
-    }
-
-    private MusicNote stringToNote(String note) {
-        MusicNote musicNote;
-        switch (note.trim()) {
-            case "A":
-                musicNote = MusicNote.A;
-                break;
-            case "B":
-                musicNote = MusicNote.B;
-                break;
-            case "C":
-                musicNote = MusicNote.C;
-                break;
-            case "D":
-                musicNote = MusicNote.D;
-                break;
-            case "E":
-                musicNote = MusicNote.E;
-                break;
-            case "F":
-                musicNote = MusicNote.F;
-                break;
-            default:
-                musicNote = MusicNote.G;
-                break;
-        }
-        return musicNote;
     }
 }

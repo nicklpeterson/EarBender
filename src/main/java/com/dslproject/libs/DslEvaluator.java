@@ -21,9 +21,9 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
     final private Logger log = LoggerFactory.getLogger(DslEvaluator.class);
     final private Music music = new Music();
 
-    final private int TOTAL_CHANNELS = 3;
+    final private int TOTAL_CHANNELS = 8;
     final private int DEFAULT_CHANNEL = 0;
-    final private int BEATS_PER_RHYTHM_LAYER = 16;
+    final private int BEATS_PER_RHYTHM_LAYER = 128 * 4;
     final private Program ast;
     private int totalBeats = 0;
 

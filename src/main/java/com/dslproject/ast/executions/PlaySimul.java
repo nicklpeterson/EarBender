@@ -16,17 +16,8 @@ public class PlaySimul extends Execution {
     List<Declaration> declarations;
 
     @Override
-    public int getBeats() {
+    public Integer getBeats() {
         return declarations.get(0).getBeats();
-    }
-
-    @Override
-    public List<Integer> getTempoList() {
-        List<Integer> tempoList = new ArrayList<>();
-        for (Declaration declaration : declarations) {
-            tempoList.addAll(declaration.getTempoList());
-        }
-        return tempoList;
     }
 
     @Override

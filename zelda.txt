@@ -1,0 +1,32 @@
+SET VAR measure1 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure2 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure3 NOTES(E6[qi], F6[i], E6[i], F4[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure4 NOTES(E6[i], C6[i], A[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure5 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure6 NOTES(A[qh]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure7 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
+
+SET VAR measure8 NOTES(E[hq]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure9 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure10 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure11 NOTES(E6[qi], F6[i], E6[i], F4[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure12 NOTES(E6[i], C6[i], A[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure13 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR measure14 NOTES(A[h], A[q]) INSTRUMENT(piano) TEMPO(150)
+
+SET VAR finalNote NOTES(D[qh]) INSTRUMENT(piano) TEMPO(150)
+
+SET LIST line1(measure1, measure2, measure3, measure4, measure5, measure6, measure7)
+SET LIST line2(measure8, measure9, measure10, measure11, measure12, measure13, measure14)
+
+FUNCTION songOfStorms {
+    PLAY line1, line2, finalNote
+}
+
+START
+    LOOP 2 TIMES
+        PLAY songOfStorms
+    END LOOP
+    PLAY SIMUL line1, line2
+    PLAY finalNote
+STOP

@@ -42,7 +42,7 @@ public class Variable extends Declaration {
     }
 
     @Override
-    public int getBeats() {
+    public Integer getBeats() {
         int beats = 0;
         for (Note note : notes) {
             beats += note.getBeats();
@@ -51,14 +51,8 @@ public class Variable extends Declaration {
     }
 
     @Override
-    public List<Integer> getTempoList() {
-        List<Integer> tempoList = new ArrayList<>();
-        tempoList.add(this.getTempo());
-        return tempoList;
-    }
-
-    @Override
     public boolean validateStructure() {
+        // TODO: don't check this here. It is already checked in the tokenizer and adding it here will make it hard to add more instruments
         String[] array = {"piano","violin","guitar","bass","trumpet","flute","whistle"};
 
         if (this.getTempo()<=0) {
