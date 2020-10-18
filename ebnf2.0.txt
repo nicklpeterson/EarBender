@@ -9,23 +9,25 @@ SET ::= "SET " LIST | VAR
 LIST ::= "LIST " NAME "(" NAME (", " NAME)* ")"
 VAR ::= "VAR " NAME " " NOTES " " INSTRUMENT " " TEMPO
 NOTES ::= "NOTES(" SINGLE_NOTE (", " SINGLE_NOTE)* ")"
-SINGLE_NOTE ::= [A-G] ("[" DURATION "]")?
+SINGLE_NOTE ::= [A-G] FLAT_OR_SHARP OCTAVE ("[" DURATION "]")
+FLAT_OR_SHARP ::= "#" | "b" | ""
+OCTAVE ::= [1-8] | ""
 DURATION ::= (“w” | “h” | “q” | “i” | “s” | “t” | “x” | “o”)+
 INSTRUMENT ::= "INSTRUMENT(" INSTRUMENT_TYPE ")"
 INSTRUMENT_TYPE ::= ”piano”|”bass”|”guitar”|”trumpet”|”violin”|”flute”|”whistle”
-TEMPO ::= "TEMPO(" [40-220] ")"
+TEMPO ::= "TEMPO(" [1-9]+ ")"
 
 PLAY ::= "PLAY " ("SIMUL ")? NAME (", " NAME)*
 
-RHYTHM ::= "RHYTHM layer(" BEAT ") length(" [0-9]+ ")"
-BEAT ::= (“.” | “B” | “C” | “S” | “H” | “O”)+
+RHYTHM ::= "RHYTHM" LAYER*
+LAYER ::= "LAYER(" (S|H|B|X|O|o|.|^|`|\*|!|){16} ")"
 
 START ::= "START"
 STOP ::= "STOP"
 
 FUNCTION ::= "FUNCTION " NAME " {" (PLAY | LOOP)* "}"
 
-LOOP ::= TIMES PLAY|LOOP "END LOOP"
+LOOP ::= TIMES LOOP|PLAY "END LOOP"
 TIMES ::= "LOOP " [0-9]+ " TIMES"
 
 

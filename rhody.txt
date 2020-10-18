@@ -1,12 +1,12 @@
-SET VAR measure1 NOTES(E[h], E[q], D[q]) INSTRUMENT(guitar) TEMPO(150)
-SET VAR measure2 NOTES(C[h], C[h]) INSTRUMENT(guitar) TEMPO(150)
-SET VAR measure3 NOTES(D[h], D[q], F[q]) INSTRUMENT(guitar) TEMPO(150)
-SET VAR measure4 NOTES(E[q], D[q], C[h]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure1 NOTES(E5[h], E5[q], D5[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure2 NOTES(C5[h], C5[h]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure3 NOTES(D5[h], D5[q], F5[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure4 NOTES(E5[q], D5[q], C5[h]) INSTRUMENT(guitar) TEMPO(150)
 
-SET VAR measure5 NOTES(G[h], G[q], F[q]) INSTRUMENT(guitar) TEMPO(150)
-SET VAR measure6 NOTES(E[h], E[q], E[q]) INSTRUMENT(guitar) TEMPO(150)
-SET VAR measure7 NOTES(D[q], F[q], E[q], D[q]) INSTRUMENT(guitar) TEMPO(150)
-SET VAR measure8 NOTES(C[w]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure5 NOTES(G6[h], G6[q], F6[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure6 NOTES(E6[h], E6[q], E6[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure7 NOTES(D6[q], F6[q], E6[q], D6[q]) INSTRUMENT(guitar) TEMPO(150)
+SET VAR measure8 NOTES(C6[w]) INSTRUMENT(guitar) TEMPO(150)
 
 SET LIST line1(measure1, measure2, measure3, measure4)
 SET LIST line2(measure5, measure6, measure7, measure8)
@@ -38,6 +38,6 @@ SET LIST line3(fun1, fun2)
 SET LIST line4(line3, line1, line2)
 
 START
-PLAY fun3, fun4
-PLAY line3, line4
+PLAY fun1
+PLAY line2
 STOP

@@ -5,8 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor
-@Getter
 @Setter
 public class ValidatorContext {
-    boolean simulParent;
+    private boolean simulParent;
+    private boolean functionParent;
+
+    public boolean hasSimulParent() {
+        return this.simulParent;
+    }
+
+    public boolean hasFunctionParent() {
+        return this.functionParent;
+    }
 }

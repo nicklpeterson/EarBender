@@ -1,7 +1,6 @@
 package com.dslproject.libs;
 
 import com.dslproject.ast.Program;
-import com.dslproject.ast.Statement;
 import com.dslproject.ast.declarations.Declaration;
 import com.dslproject.ast.declarations.DslList;
 import com.dslproject.ast.declarations.Function;
@@ -11,7 +10,6 @@ import com.dslproject.exceptions.ValidatorException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 
 /*
 This class is just validating the PLAY SIMUL command.
@@ -19,7 +17,7 @@ the parser and tokenizer should catch any other errors, but
 we may want to add more validation to be safe.
  */
 @RequiredArgsConstructor
-public class DslValidator implements DslVisitor<Boolean, ValidatorContext> {
+public class DslValidator implements DslVisitor<Boolean, Void> {
     private final Program ast;
 
     public  static DslValidator getValidator(Program ast) {
@@ -27,78 +25,86 @@ public class DslValidator implements DslVisitor<Boolean, ValidatorContext> {
     }
 
     public boolean validateProgram(){
-        return ast.accept(new ValidatorContext(false), this);
+        return ast.accept(null, this);
     }
 
     public boolean validateSimul(PlaySimul playSimul) {
-        HashSet<Integer> tempoList = new HashSet<>(playSimul.getTempoList());
         HashSet<Integer> beatList = new HashSet<>();
         for (Declaration declaration : playSimul.getDeclarations()) {
-            declaration.validateStructure();
+            // declaration.validateStructure();
             beatList.add(declaration.getBeats());
         }
-        if (tempoList.size() > 1) {
-            throw new ValidatorException("Declarations do not all have the same tempo.");
-        }
         if (beatList.size() > 1) {
-            throw new ValidatorException("The declarations are not all the same length.");
+            throw new ValidatorException("The declarations in PLAY SIMUL are not all the same length.");
         }
         return true;
     }
     public boolean validateSync(PlaySync playSync) {
         for (Declaration declaration : playSync.getDeclarations()) {
-            declaration.validateStructure();
+            // declaration.validateStructure();
         }
         return true;
     }
 
 
     @Override
-    public Boolean visit(ValidatorContext context, DslList dslList) {
+    public Boolean visit(Void context, DslList dslList) {
+        for (Declaration declaration : dslList.getDeclarations()) {
+            declaration.accept(null, this);
+        }
         return true;
     }
 
     @Override
-    public Boolean visit(ValidatorContext context, Function function) {
+    public Boolean visit(Void context, Function function) {
+        for (Execution execution : function.getExecutions()) {
+            execution.accept(null, this);
+        }
         return true;
     }
 
     @Override
-    public Boolean visit(ValidatorContext context, Variable variable) {
+    public Boolean visit(Void context, Variable variable) {
+        if (variable.getTempo() <= 0) {
+            throw new ValidatorException( variable.getName() + " has a tempo less than or equal to zero. Tempo must be greater than zero.");
+        }
         return true;
     }
 
     @Override
-    public Boolean visit(ValidatorContext context, Loop loop) {
+    public Boolean visit(Void context, Loop loop) {
+        for (Execution execution : loop.getExecutions()) {
+            execution.accept(null, this);
+        }
         return true;
     }
 
     @Override
-    public Boolean visit(ValidatorContext context, PlaySimul playSimul) {
+    public Boolean visit(Void context, PlaySimul playSimul) {
         validateSimul(playSimul);
         for (Declaration declaration : playSimul.getDeclarations()) {
-            declaration.accept(new ValidatorContext(true), this);
+            declaration.accept(null, this);
         }
         return true;
     }
 
     @Override
-    public Boolean visit(ValidatorContext context, PlaySync playSync) {
+    public Boolean visit(Void context, PlaySync playSync) {
         for (Declaration declaration : playSync.getDeclarations()) {
             validateSync(playSync);
-            declaration.accept(new ValidatorContext(false), this);
+            declaration.accept(null, this);
         }
 
         return true;
     }
 
     @Override
-    public Boolean visit(ValidatorContext context, Program program) {
-        return program.getStatements().stream().allMatch(x -> x.accept(context, this));
+    public Boolean visit(Void context, Program program) {
+        return program.getStatements().stream().allMatch(x -> x.accept(null, this));
     }
 
     @Override
-    public Boolean visit(ValidatorContext context, Rhythm rhythm) {
+    public Boolean visit(Void context, Rhythm rhythm) {
         return true;
     }
 }

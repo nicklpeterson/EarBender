@@ -18,7 +18,9 @@ public class DslParser {
     final private Logger log = LoggerFactory.getLogger(DslParser.class);
     private final Tokenizer tokenizer;
     private final Map<String, Declaration> declarationMap = new HashMap<>();
-    private final List<Statement> statements = new ArrayList<>();
+    private final List<Execution> statements = new ArrayList<>();
+    private boolean reachedStart = false;
+    private boolean reachedStop = false;
 
     public static DslParser getParser(Tokenizer tokenizer) {
         return new DslParser(tokenizer);
@@ -32,7 +34,10 @@ public class DslParser {
     }
 
     private void parseStatement() throws ParserException {
-        if (tokenizer.checkToken(DslConstants.NEWLINE_REGEX)) {
+        if (this.reachedStop) {
+            throw new ParserException("There cannot be any commands after 'STOP'");
+        }
+        else if (tokenizer.checkToken(DslConstants.NEWLINE_REGEX)) {
             tokenizer.getNext();
         }
         else if (tokenizer.checkToken(DslConstants.VAR_REGEX)) {
@@ -42,12 +47,21 @@ public class DslParser {
             safeAddDeclaration(parseList());
         }
         else if (tokenizer.checkToken(DslConstants.PLAY_REGEX)) {
+            if (!this.reachedStart) {
+                throw new ParserException("Cannot execute a PLAY before 'START'");
+            }
             this.statements.add(parsePlaySync());
         }
         else if (tokenizer.checkToken(DslConstants.SIMUL_REGEX)) {
+            if (!this.reachedStart) {
+                throw new ParserException("Cannot execute a PLAY SIMUL before 'START'");
+            }
             this.statements.add(parsePlaySimul());
         }
         else if (tokenizer.checkToken(DslConstants.LOOP_REGEX)) {
+            if (!this.reachedStart) {
+                throw new ParserException("Cannot execute a LOOP before 'START'");
+            }
             this.statements.add(parseLoop());
         }
         else if (tokenizer.checkToken(DslConstants.FUNCTION_REGEX)) {
@@ -56,7 +70,12 @@ public class DslParser {
         else if (tokenizer.checkToken(DslConstants.RHYTHM_REGEX)) {
             this.statements.add(0, parseRhythm());
         }
-        else if (tokenizer.checkToken(DslConstants.START_REGEX) || tokenizer.checkToken(DslConstants.STOP_REGEX)) {
+        else if (tokenizer.checkToken(DslConstants.START_REGEX)) {
+            this.reachedStart = true;
+            tokenizer.getNext();
+        }
+        else if (tokenizer.checkToken(DslConstants.STOP_REGEX)) {
+            this.reachedStop = true;
             tokenizer.getNext();
         }
         else {
@@ -67,6 +86,9 @@ public class DslParser {
     }
 
     private Variable parseVariable() throws ParserException {
+        if (this.reachedStart) {
+            throw new ParserException("Cannot declare a variable after 'START'");
+        }
         final String name = tokenizer.getNext().split(" ")[2].trim();
         final String[] noteArray = tokenizer.getAndCheckNext(DslConstants.NOTES_REGEX).split("\\(")[1].replace(")", "").split(",");
         final List<Note> notes = newNoteList(noteArray);
@@ -76,6 +98,9 @@ public class DslParser {
     }
 
     private DslList parseList() throws ParserException {
+        if (this.reachedStart) {
+            throw new ParserException("Cannot declare a list after 'START'");
+        }
         String[] tokens = tokenizer.getNext().split(" |\\(|\\)");
         final String name = tokens[2].trim();
         tokens = Arrays.copyOfRange(tokens, 3, tokens.length);
