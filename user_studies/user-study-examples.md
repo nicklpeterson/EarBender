@@ -138,4 +138,3 @@ Play the two layers simultaneously, three times in a loop (Use function command 
 After the loop has finished play the third layer.
 
 -----------------------------
-

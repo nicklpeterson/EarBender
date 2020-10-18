@@ -8,6 +8,7 @@ import com.dslproject.ast.declarations.DslList;
 import com.dslproject.ast.declarations.Function;
 import com.dslproject.ast.declarations.Variable;
 import com.dslproject.ast.executions.*;
+import com.dslproject.exceptions.EvaluatorException;
 import com.dslproject.music.Music;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
 
     final private int TOTAL_CHANNELS = 7;
     final private int DEFAULT_CHANNEL = 0;
-    final private int BEATS_PER_RHYTHM_LAYER = 128 * 4;
+    final private int BEATS_PER_RHYTHM_LAYER = 128 * 2;
     final private Program ast;
     private int totalBeats = 0;
 
@@ -36,10 +37,13 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
      *
      * @throws EvaluationException
      */
-    public void evaluateProgram() {
+    public void evaluateProgram() throws EvaluatorException {
         // go through the statement and evaluate each statement
         for (Statement statement : ast.getStatements()) {
             this.totalBeats += statement.getBeats();
+        }
+        if (this.totalBeats <= 0) {
+            throw new EvaluatorException("The song must contain at least one note.");
         }
         ast.accept(new EvaluatorContext(DEFAULT_CHANNEL, false, false), this);
         this.music.playMusic();
@@ -116,7 +120,8 @@ public class DslEvaluator implements DslVisitor<Void, EvaluatorContext>{
         for (String layer : rhythm.getLayers()) {
             music.addRhythmLayer(layer);
         }
-        music.setRhythmLength(this.totalBeats / this.BEATS_PER_RHYTHM_LAYER);
+        double length = (double) this.totalBeats / (double) this.BEATS_PER_RHYTHM_LAYER;
+        music.setRhythmLength(length);
         return null;
     }
 }

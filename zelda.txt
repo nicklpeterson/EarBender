@@ -44,15 +44,17 @@ RHYTHM LAYER(..S...S...S...S.) LAYER(O...O...O...O..*)
 RHYTHM LAYER(.OOOO...........)
 
 FUNCTION songOfStormsPiano {
-    PLAY pianoLine1, pianoLine2, finalNotePiano
+    PLAY pianoLine1, pianoLine2
+    PLAY finalNotePiano
 }
 
 FUNCTION songOfStormsFlute {
-    PLAY fluteLine1, fluteLine2, finalNoteFlute
+    PLAY fluteLine1, fluteLine2
+    PLAY finalNoteFlute
 }
 
 START
     PLAY songOfStormsPiano, songOfStormsFlute
     PLAY SIMUL pianoLine1, pianoLine2
-    PLAY finalNotePiano
+    PLAY SIMUL songOfStormsPiano, songOfStormsFlute
 STOP

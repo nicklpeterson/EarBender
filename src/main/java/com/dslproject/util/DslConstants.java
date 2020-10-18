@@ -7,7 +7,7 @@ public class DslConstants {
     final static public List<String> SEPARATOR_LIST = Arrays.asList("\\n", "\\r\\n");
     final static public String VAR_REGEX = "SET VAR [A-Za-z0-9]+";
     final static public String LIST_REGEX = "SET LIST [A-Za-z0-9]+\\([A-Za-z0-9]+(,( *)[A-Za-z0-9]+)*\\)";
-    final static public String NOTES_REGEX = "NOTES\\(([A-G](\\#|b)?[1-8]?(\\[(o|x|t|s|i|q|h|w)*\\])?)(,( *)([A-G](\\#|b)?[1-8]?(\\[(o|x|t|s|i|q|h|w)*\\])?))*\\)";
+    final static public String NOTES_REGEX = "NOTES\\(([A-G|R](\\#|b)?[1-8]?(\\[(o|x|t|s|i|q|h|w)*\\])?)(,( *)([A-G|R](\\#|b)?[1-8]?(\\[(o|x|t|s|i|q|h|w)*\\])?))*\\)";
     final static public String INSTRUMENT_REGEX = "INSTRUMENT\\(((piano)|(flute)|(violin)|(trumpet)|(guitar)|(voice)|(acoustic_bass))\\)"; // TODO: Add more instruments
     final static public String TEMPO_REGEX = "TEMPO\\(([0-9]+)\\)";
     final static public String RHYTHM_REGEX = "RHYTHM (( *)?LAYER\\([S|H|B|X|O|o|.|^|`|\\*|!|\\+]{16}\\))+";
