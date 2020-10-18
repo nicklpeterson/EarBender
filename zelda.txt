@@ -19,7 +19,6 @@ SET VAR finalNote NOTES(D[qh]) INSTRUMENT(piano) TEMPO(150)
 SET LIST line1(measure1, measure2, measure3, measure4, measure5, measure6, measure7)
 SET LIST line2(measure8, measure9, measure10, measure11, measure12, measure13, measure14)
 
-
 FUNCTION songOfStorms {
     PLAY line1, line2, finalNote
 }

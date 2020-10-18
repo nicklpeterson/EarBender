@@ -12,6 +12,7 @@ SET LIST line1(measure1, measure2, measure3, measure4)
 SET LIST line2(measure5, measure6, measure7, measure8)
 
 RHYTHM LAYER(^^X.^^X.^^X.^^X.) LAYER(O...O...O...O..*)
+RHYTHM LAYER(.OOOO...........)
 
 FUNCTION fun2 {
     LOOP 2 TIMES

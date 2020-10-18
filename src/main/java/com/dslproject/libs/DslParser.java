@@ -181,7 +181,10 @@ public class DslParser {
         return new Function(name, executions);
     }
 
-    private Rhythm parseRhythm() {
+    private Rhythm parseRhythm() throws ParserException {
+        if (this.reachedStart) {
+            throw new ParserException("Cannot declare a rhythm after 'START'");
+        }
         String[] tokens = tokenizer.getNext().split("( )|\\(|\\)");
         List<String> layers = new ArrayList<>();
         for (int i = 0; i < tokens.length - 1; i++) {
