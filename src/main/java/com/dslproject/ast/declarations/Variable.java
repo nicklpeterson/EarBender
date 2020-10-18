@@ -1,12 +1,9 @@
 package com.dslproject.ast.declarations;
 
-import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Setter
@@ -52,14 +49,6 @@ public class Variable extends Declaration {
 
     @Override
     public boolean validateStructure() {
-        // TODO: don't check this here. It is already checked in the tokenizer and adding it here will make it hard to add more instruments
-        String[] array = {"piano","violin","guitar","bass","trumpet","flute","whistle"};
-
-        if (this.getTempo()<=0) {
-            throw new ValidatorException("tempo should be greater than 0");
-        } else if (!Arrays.asList(array).contains(this.getInstrument())){
-            throw new ValidatorException("unknown instruments");
-        }
         return true;
     }
 

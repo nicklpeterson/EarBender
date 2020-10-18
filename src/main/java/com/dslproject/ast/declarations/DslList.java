@@ -1,6 +1,5 @@
 package com.dslproject.ast.declarations;
 
-import com.dslproject.exceptions.ValidatorException;
 import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +27,6 @@ public class DslList extends Declaration {
     @Override
     public boolean validateStructure() {
         for (Declaration declaration : declarations) {
-
             declaration.validateStructure();
         }
         return true;

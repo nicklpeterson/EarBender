@@ -1,32 +1,58 @@
-SET VAR measure1 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure2 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure3 NOTES(E6[qi], F6[i], E6[i], F4[i]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure4 NOTES(E6[i], C6[i], A[h]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure5 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure6 NOTES(A[qh]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure7 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano1 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano2 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano3 NOTES(E6[qi], F6[i], E6[i], F4[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano4 NOTES(E6[i], C6[i], A[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano5 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano6 NOTES(A[qh]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano7 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
 
-SET VAR measure8 NOTES(E[hq]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure9 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure10 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure11 NOTES(E6[qi], F6[i], E6[i], F4[i]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure12 NOTES(E6[i], C6[i], A[h]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure13 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
-SET VAR measure14 NOTES(A[h], A[q]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano8 NOTES(E[hq]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano9 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano10 NOTES(D[i], F[i], D6[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano11 NOTES(E6[qi], F6[i], E6[i], F4[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano12 NOTES(E6[i], C6[i], A[h]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano13 NOTES(A[q], D[q], F[i], G[i]) INSTRUMENT(piano) TEMPO(150)
+SET VAR piano14 NOTES(A[h], A[q]) INSTRUMENT(piano) TEMPO(150)
 
-SET VAR finalNote NOTES(D[qh]) INSTRUMENT(piano) TEMPO(150)
+SET VAR finalNotePiano NOTES(D[qh]) INSTRUMENT(piano) TEMPO(150)
 
-SET LIST line1(measure1, measure2, measure3, measure4, measure5, measure6, measure7)
-SET LIST line2(measure8, measure9, measure10, measure11, measure12, measure13, measure14)
+SET VAR flute1 NOTES(D4[i], F4[i], D[h]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute2 NOTES(D4[i], F4[i], D[h]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute3 NOTES(E[qi], F[i], E[i], F4[i]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute4 NOTES(E[i], C[i], A4[h]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute5 NOTES(A4[q], D4[q], F4[i], G4[i]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute6 NOTES(A4[qh]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute7 NOTES(A4[q], D4[q], F4[i], G4[i]) INSTRUMENT(flute) TEMPO(150)
 
-FUNCTION songOfStorms {
-    PLAY line1, line2, finalNote
+SET VAR flute8 NOTES(E4[hq]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute9 NOTES(D4[i], F4[i], D[h]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute10 NOTES(D4[i], F4[i], D[h]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute11 NOTES(E[qi], F[i], E[i], F4[i]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute12 NOTES(E[i], C[i], A4[h]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute13 NOTES(A4[q], D4[q], F4[i], G4[i]) INSTRUMENT(flute) TEMPO(150)
+SET VAR flute14 NOTES(A4[h], A4[q]) INSTRUMENT(flute) TEMPO(150)
+
+SET VAR finalNoteFlute NOTES(D4[qh]) INSTRUMENT(flute) TEMPO(150)
+
+SET LIST pianoLine1(piano1, piano2, piano3, piano4, piano5, piano6, piano7)
+SET LIST pianoLine2(piano8, piano9, piano10, piano11, piano12, piano13, piano14)
+
+SET LIST fluteLine1(flute1, flute2, flute3, flute4, flute5, flute6, flute7)
+SET LIST fluteLine2(flute8, flute9, flute10, flute11, flute12, flute13, flute14)
+
+RHYTHM LAYER(..S...S...S...S.) LAYER(O...O...O...O..*)
+RHYTHM LAYER(.OOOO...........)
+
+FUNCTION songOfStormsPiano {
+    PLAY pianoLine1, pianoLine2, finalNotePiano
+}
+
+FUNCTION songOfStormsFlute {
+    PLAY fluteLine1, fluteLine2, finalNoteFlute
 }
 
 START
-    LOOP 2 TIMES
-        PLAY songOfStorms
-    END LOOP
-    PLAY SIMUL line1, line2
-    PLAY finalNote
+    PLAY songOfStormsPiano, songOfStormsFlute
+    PLAY SIMUL pianoLine1, pianoLine2
+    PLAY finalNotePiano
 STOP

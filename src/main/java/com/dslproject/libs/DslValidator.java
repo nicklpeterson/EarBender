@@ -31,7 +31,7 @@ public class DslValidator implements DslVisitor<Boolean, Void> {
     public boolean validateSimul(PlaySimul playSimul) {
         HashSet<Integer> beatList = new HashSet<>();
         for (Declaration declaration : playSimul.getDeclarations()) {
-            // declaration.validateStructure();
+            declaration.validateStructure();
             beatList.add(declaration.getBeats());
         }
         if (beatList.size() > 1) {
@@ -41,7 +41,7 @@ public class DslValidator implements DslVisitor<Boolean, Void> {
     }
     public boolean validateSync(PlaySync playSync) {
         for (Declaration declaration : playSync.getDeclarations()) {
-            // declaration.validateStructure();
+            declaration.validateStructure();
         }
         return true;
     }

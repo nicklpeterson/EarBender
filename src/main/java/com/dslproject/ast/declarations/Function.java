@@ -6,7 +6,6 @@ import com.dslproject.libs.DslVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,9 +29,6 @@ public class Function extends Declaration {
 
     @Override
     public boolean validateStructure() {
-        if (executions.size() == 0) {
-            throw new ValidatorException("the function cannot be empty");
-        }
         for (Execution execution : executions) {
             if(execution.getClass().equals(Rhythm.class)) {
                 throw new ValidatorException("rhythm cannot be within function");
