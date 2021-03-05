@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Logger log = LoggerFactory.getLogger(Main.class);
         try {
-            Tokenizer tokenizer = DslTokenizer.createDslTokenizer("zelda.txt");
+            Tokenizer tokenizer = DslTokenizer.createDslTokenizer(args[0]);
             Program ast = DslParser.getParser(tokenizer).parseProgram();
             log.info("Successfully Parsed Tokens");
             log.info("Validation: " + DslValidator.getValidator(ast).validateProgram());

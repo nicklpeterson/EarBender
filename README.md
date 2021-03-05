@@ -1,27 +1,47 @@
-# cpsc410_project1_team23
-Project 1 Team Repository
+# Ear Bender
 
-Link to demo: https://www.dropbox.com/s/uih7mxh4phjtt8l/Demo2.mp4?dl=0
+A domain specific language that allows users to make songs programmatically.
 
 Our DSL accepts a text file and plays the music defined the in the file.
+
+Compile and run:
+
+Make sure you are using Java 11. From the root directory run:
+
+mvn package
+
+java -jar target/MusicDSL.jar zelda.txt
+
+Substitute your own DSL file for zelda.txt to try out your own songs.
+
+How it works:
 
 The text file is first tokenized using the Tokenizer, which breaks the raw text into an array of tokens. Next, it is
  passed to the parser, which creates an abstract syntax tree from the tokens. The third step is validation by our
  validator, which checks for a few specific errors that are not checked by the parser. Finally, the evaluator
- traverses the AST , compiles a music object and plays it!
+ traverses the AST and compiles the code to a Jfuege music object and plays it!
+ 
+The Language:
 
 The Dsl consists of several components designed to give the programmer space to implement most songs.
+
 - Variables: variables are the smallest song component. Each variable consists of one or more notes and has an
- instrument and a tempo. Variables must be defined before the START command in the program.
- The syntax looks like this: SET VAR NOTES(G#6[q]) INSTRUMENT(piano) TEMPO(150)
+ instrument and a tempo. Variables must be defined before the START command in the program. In the example below, 
  The G#6[q] corresponds to a G sharp quarter note at the 6th octave. It is okay to leave out the #/b and the 6, the
  default octave is 5. You can add as many comma separated notes to a variable as you would like. In the zelda.txt
  example each variable corresponds to a measure.
+ 
+    SET VAR NOTES(G#6[q]) INSTRUMENT(piano) TEMPO(150)
+ 
 - Functions: These are segments of code that can be used in the body, other functions, or lists. They must be defined
- before the START command. The syntax looks like this: FUNCTION fun1 { ... } where ... is your commands.
+ before the START command. The syntax looks like this: 
+ 
+    FUNCTION fun1 { ... } where ... is your commands.
+ 
 - Lists: These can be a list of any number/combination of variables, functions, and lists that have been previously
  declared. All lists must be declared before the START command. When lists are played, all the items in the list will
   be played in order.
+
 - Rhythm: This is one of the most fun parts of this language. We added a very simple way for users to create beats.
  Just use the command RHYTHM LAYER(...) and add as many layers as you would like. The ... in each layer must contain
   exactly 16 beats each beat can be one of ("S" - acoustic snare , "X" - snare drum , "O" - acoustic bass , "o
@@ -29,12 +49,16 @@ The Dsl consists of several components designed to give the programmer space to 
   rhythm will play for the entire song, you cannot change the ryhthm during the song. This was difficult to
   implement but we felt that it is a great feature for people making simple songs who want to add a beat with
   minimal code.
+
 - START: this marks the beginning of the main execution.
+
 - loops: Loops can be used in the main execution or in functions. They work just like loops in any programming
  language. The syntax is LOOP X TIMES ... END LOOP, where X is the number of times to execute the loop and ... is the
-  commands to execute. 
+  commands to execute.
+   
 - PLAY: the play command is followed by one or more comma separated declarations (functions, variables, lists). They
  are played in order. The syntax is: PLAY list1, list2, fun1
+ 
 - PLAY SIMUL: The play simul command plays two to 7 declarations at the same time. The 7 limit comes from the
  underlying api we are using to generate the music. It is not allowed to play functions simultaneously if one or more
   of those functions contains a PLAY SIMUL. We added this restriction, because deeply nested PLAY SIMULS result in
@@ -47,7 +71,7 @@ The Dsl consists of several components designed to give the programmer space to 
 Create a new program by creating a text file in the root and adding that the name as an argument to the tokenizer. 
 
 Another option is to just play with our zelda.txt file. The lists defined in that file all have the same number of
- beats, so they can be played simultaneously. 
+beats, so they can be played simultaneously. 
 
 A small example:<br/>
 SET VAR measure1 NOTES(E5[h], E5[q], D5[q]) INSTRUMENT(guitar) TEMPO(150) <br/>

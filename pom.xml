@@ -56,7 +56,6 @@
     <build>
         <finalName>MusicDSL</finalName>
 
-        <!-- download source code in Eclipse, best practice -->
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
